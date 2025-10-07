@@ -1,42 +1,22 @@
 using UnityEngine;
 
-public class Hexagon : MonoBehaviour, IDamagable
+public class Hexagon : MonoBehaviour
 {
-    [Header(" Datas ")]
-    [SerializeField] private float _maxHealth;
-    private float _health;
-
-    public float MaxHealth
+    [SerializeField] private MeshRenderer meshRenderer;
+    
+    public void SetColor(Color color)
     {
-        get => _maxHealth;
-        set => _maxHealth = value;
+        if (meshRenderer != null)
+            meshRenderer.material.color = color;
     }
 
-    public float Health
+    public void SetLocalPosition(float offSet, int index)
     {
-        get => _health;
-        set
-        {
-            _health = value;
-            if (_health <= 0)
-            {
-                // Kill Hexagon
-            }
-        }
-    }
-
-    public void InitializeData(float health)
-    {
-        MaxHealth = health;
-        ResetHealth();
+        transform.localPosition = Vector3.up * offSet * index;
     }
     
-    private void ResetHealth(){
-        Health = MaxHealth;
-    }
-
-    public void TakeDamage(float damage)
+    public void SetActive(bool active)
     {
-        Health -= damage;
+        gameObject.SetActive(active);
     }
 }
