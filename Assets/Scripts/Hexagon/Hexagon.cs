@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Hexagon : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     
     public void SetColor(Color color)
     {
-        if (meshRenderer != null)
-            meshRenderer.material.color = color;
+        if (spriteRenderer != null)
+            spriteRenderer.material.color = color;
     }
 
     public void SetLocalPosition(float offSet, int index)

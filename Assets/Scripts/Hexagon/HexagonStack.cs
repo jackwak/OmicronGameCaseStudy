@@ -6,7 +6,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
 {
     [Header(" References ")]
     [SerializeField] private Transform _hexagonsParent;
-    [SerializeField] private TextMeshProUGUI _healthText;
+    [SerializeField] private TextMeshPro _healthText;
 
     [Header(" Settings ")]
     private float _hexagonsOffset = 0.065f;
@@ -16,12 +16,12 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private float _maxHealth = 20f;
     private float _health;
 
+    // Properties
     public float MaxHealth
     {
         get => _maxHealth;
         set => _maxHealth = value;
     }
-
     public float Health
     {
         get => _health;
