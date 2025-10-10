@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7644edcc9b3d2914688c6902de51f434, type: 3}
   m_Name: Pattern1
   m_EditorClassIdentifier: 
+  PatternSettings: {fileID: 11400000, guid: 9ccc2040ae31d244eacee52a8ba4cb82, type: 2}
   StackGroups:
   - GroupId: 0
     GroupType: 0
-    HealthRange: {x: 1, y: 1}
+    HealthRange: {x: 5, y: 10}
     HexagonHealthReference: 1
     GroupColor: {r: 1, g: 1, b: 1, a: 1}
     StackPositions:
@@ -33,8 +34,6 @@ MonoBehaviour:
     - {x: 6, y: 4}
     - {x: 6, y: 5}
     - {x: 6, y: 6}
-    StackReferences:
-    - {fileID: 1754782418713270910, guid: 36d29fd35258b4995816cc7331963e99, type: 3}
     RotationSpeed: 45
     RotationAxis: {x: 0, y: 1, z: 0}
     PivotPosition: 0
@@ -43,7 +42,7 @@ MonoBehaviour:
     OscillationDirection: {x: 1, y: 0, z: 0}
   - GroupId: 1
     GroupType: 1
-    HealthRange: {x: 1, y: 1}
+    HealthRange: {x: 5, y: 10}
     HexagonHealthReference: 1
     GroupColor: {r: 0.165, g: 0.271, b: 0.11, a: 1}
     StackPositions:
@@ -55,8 +54,6 @@ MonoBehaviour:
     - {x: 4, y: 2}
     - {x: 4, y: 3}
     - {x: 4, y: 4}
-    StackReferences:
-    - {fileID: 1754782418713270910, guid: 36d29fd35258b4995816cc7331963e99, type: 3}
     RotationSpeed: 45
     RotationAxis: {x: 0, y: 0, z: 1}
     PivotPosition: 2
@@ -65,7 +62,7 @@ MonoBehaviour:
     OscillationDirection: {x: 1, y: 0, z: 0}
   - GroupId: 2
     GroupType: 2
-    HealthRange: {x: 0, y: 0}
+    HealthRange: {x: 5, y: 10}
     HexagonHealthReference: 1
     GroupColor: {r: 0.647, g: 0.204, b: 0.227, a: 1}
     StackPositions:
@@ -73,15 +70,13 @@ MonoBehaviour:
     - {x: 1, y: 6}
     - {x: 5, y: 5}
     - {x: 5, y: 6}
-    StackReferences:
-    - {fileID: 1754782418713270910, guid: 36d29fd35258b4995816cc7331963e99, type: 3}
     RotationSpeed: 45
     RotationAxis: {x: 0, y: 1, z: 0}
     PivotPosition: 0
     Amplitude: 2
     Frequency: 1
     OscillationDirection: {x: 0, y: 1, z: 0}
-  HexRadius: 0.85
+  HexRadius: 0.75
   CanRandomize: 0
   GridWidth: 7
   GridHeight: 7

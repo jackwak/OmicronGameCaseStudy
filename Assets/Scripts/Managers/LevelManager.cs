@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
+
     
     [Title("Level Configuration")]
     [InfoBox("Assign level data for each level. Index 0 = Level 1, Index 1 = Level 2, etc.")]
@@ -20,16 +21,12 @@ public class LevelManager : MonoBehaviour
     
     [ReadOnly, ShowInInspector]
     private LevelData _currentLevelData;
-    
-    [Title("Spawn Settings")]
-    public Transform PatternSpawnParent; // Parent object for spawned patterns
-    public GameObject HexagonStackPrefab; // HexagonStack prefab to spawn
-    
-    [Title("References")]
-    public PatternSpawnTrigger SpawnTrigger;
 
-    [Title("Pooling")]
-    public string HexagonStackPoolKey = "HexagonStack";
+    [Title("Pooling Keys")]
+    private const string HEXAGON_STACK_POOL_KEY = "HexagonStack";
+    private const string ROTATION_STACK_GROUP_KEY = "RotationStackGroup";
+    private const string OSCILLATING_STACK_GROUP_KEY = "OscillatingStackGroup";
+    private const string STATIC_STACK_GROUP_KEY = "StaticStackGroup";
     
     private void Awake()
     {
@@ -41,16 +38,7 @@ public class LevelManager : MonoBehaviour
         }
 
         Instance = this;
-        // DontDestroyOnLoad(gameObject); // Optional: keep between scenes
-
-        // Initialize for current level
         LoadLevel(CurrentLevel);
-    }
-    
-    private void Start()
-    {
-        // Optional: Spawn first pattern immediately
-        // SpawnNextPattern();
     }
     
     public void LoadLevel(int levelNumber)
@@ -72,7 +60,7 @@ public class LevelManager : MonoBehaviour
         }
     }
     
-    public void SpawnNextPattern(Vector3 spawnPosition)
+    public void SpawnNextPattern(Transform spawnTransform)
     {
         Debug.Log("=== SpawnNextPattern called with position ===");
         
@@ -92,10 +80,10 @@ public class LevelManager : MonoBehaviour
             return;
         }
         
-        Debug.Log($"Spawning Pattern {_currentPatternIndex}: {pattern.name} with {pattern.StackGroups.Count} groups at position {spawnPosition}");
+        Debug.Log($"Spawning Pattern {_currentPatternIndex}: {pattern.name} with {pattern.StackGroups.Count} groups at position {spawnTransform.position}");
         
         // Spawn the pattern at the given position
-        SpawnPattern(pattern, spawnPosition);
+        SpawnPattern(pattern, spawnTransform);
         
         // Move to next pattern
         _currentPatternIndex++;
@@ -107,58 +95,44 @@ public class LevelManager : MonoBehaviour
         }
     }
     
-    public void SpawnNextPattern()
+    private void SpawnPattern(HexagonPattern pattern, Transform spawnTransform)
     {
-        // Find PatternSpawnPosition in scene for test button
-        PatternSpawnPosition spawnPos = FindObjectOfType<PatternSpawnPosition>();
-        Vector3 spawnPosition = spawnPos != null ? spawnPos.transform.position : Vector3.zero;
-        
-        // Call the main method with position
-        SpawnNextPattern(spawnPosition);
-    }
-    
-    private void SpawnPattern(HexagonPattern pattern, Vector3 spawnPosition)
-    {
-        GameObject patternParent = new GameObject($"Pattern_{_currentPatternIndex}_{pattern.name}");
-        
-        if (PatternSpawnParent != null)
-            patternParent.transform.SetParent(PatternSpawnParent);
-        
-        patternParent.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
-        
         foreach (var groupData in pattern.StackGroups)
         {
-            SpawnStackGroup(groupData, pattern, patternParent.transform);
+            SpawnStackGroup(groupData, pattern, spawnTransform);
         }
     }
     
-    private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform patternParent)
+    private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform)
     {
-        GameObject groupObject = new GameObject($"Group_{groupData.GroupId}_{groupData.GroupType}");
-        groupObject.transform.SetParent(patternParent);
-        groupObject.transform.localPosition = Vector3.zero;
-        
+        GameObject groupObject = null;
         HexagonStackGroup groupComponent = null;
         switch (groupData.GroupType)
         {
             case StackGroupType.Static:
-                groupComponent = groupObject.AddComponent<StaticStackGroup>();
+                groupObject = ObjectPool.Instance.Get(STATIC_STACK_GROUP_KEY);
+                groupComponent = groupObject.GetComponent<StaticStackGroup>();
                 break;
             case StackGroupType.Rotating:
-                var rotatingGroup = groupObject.AddComponent<RotatingStackGroup>();
+                groupObject = ObjectPool.Instance.Get(ROTATION_STACK_GROUP_KEY);
+                var rotatingGroup = groupObject.GetComponent<RotatingStackGroup>();
                 rotatingGroup.RotationSpeed = groupData.RotationSpeed;
                 rotatingGroup.RotationAxis = groupData.RotationAxis;
                 rotatingGroup.PivotPosition = groupData.PivotPosition;
                 groupComponent = rotatingGroup;
                 break;
             case StackGroupType.Oscillating:
-                var oscillatingGroup = groupObject.AddComponent<OscillatingStackGroup>();
+                groupObject = ObjectPool.Instance.Get(OSCILLATING_STACK_GROUP_KEY);
+                var oscillatingGroup = groupObject.GetComponent<OscillatingStackGroup>();
                 oscillatingGroup.Amplitude = groupData.Amplitude;
                 oscillatingGroup.Frequency = groupData.Frequency;
                 oscillatingGroup.OscillationDirection = groupData.OscillationDirection;
                 groupComponent = oscillatingGroup;
                 break;
         }
+
+        groupObject.transform.SetParent(spawnTransform);
+        groupObject.transform.localPosition = new Vector3(0, 0, -1);
         
         if (groupComponent != null)
         {
@@ -263,18 +237,13 @@ public class LevelManager : MonoBehaviour
     Transform groupParent,
     HexagonStackGroup groupComponent)
     {
-        var stackObject = ObjectPool.Instance.Get(HexagonStackPoolKey, parent: groupParent);
-        if (stackObject == null)
-        {
-            Debug.LogError($"Pooldan obje alınamadı. Key: {HexagonStackPoolKey}");
-            return null;
-        }
+        var stackObject = ObjectPool.Instance.Get(HEXAGON_STACK_POOL_KEY, parent: groupParent);
 
         stackObject.name = $"Stack_{gridPosition.x}_{gridPosition.y}";
 
         // Lokal konum ver
-        Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.HexRadius);
-        stackObject.transform.localPosition = localPosition;
+        Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.PatternSettings.HexRadius);
+        stackObject.transform.localPosition = localPosition + new Vector3(0, 0, .1f * gridPosition.y);
 
         // Bileşen kontrolü
         var stackComponent = stackObject.GetComponent<HexagonStack>();
@@ -309,12 +278,6 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log($"Level {CurrentLevel} completed!");
         // TODO: Handle level completion
-    }
-    
-    [Button("Spawn Next Pattern (Test)", ButtonSizes.Large)]
-    private void TestSpawnNextPattern()
-    {
-        SpawnNextPattern(Vector3.zero);
     }
 
     [Button("Reset Level", ButtonSizes.Medium)]

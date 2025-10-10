@@ -40,10 +40,10 @@ public class FullscreenSquare : MonoBehaviour
         float worldHeight = _mainCam.orthographicSize * 2f;
         float worldWidth = worldHeight * _mainCam.aspect;
 
-        Vector3 scale = transform.localScale;
+        Vector3 scale = _renderer.transform.localScale;
         scale.x = worldWidth / spriteWidth;
         scale.y = worldHeight / spriteHeight;
-        transform.localScale = scale;
+        _renderer.transform.localScale = scale;
     }
 
     private void UpdateSpawnPosition()

@@ -9,7 +9,8 @@ public class HexagonStack : MonoBehaviour, IDamagable
     [SerializeField] private TextMeshPro _healthText;
 
     [Header(" Settings ")]
-    private float _hexagonsOffset = 0.065f;
+    private float _hexagonsYOffset = 0.065f;
+    private const string HEXAGON_POOL_KEY = "Hexagon";
 
     [Header(" Datas ")]
     private Stack<Hexagon> _activeHexagon = new Stack<Hexagon>();
@@ -52,7 +53,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private void InitializeText(float health, int count)
     {
         _healthText.text = health.ToString();
-        _healthText.transform.localPosition = Vector3.up * count * _hexagonsOffset;
+        _healthText.transform.localPosition = new Vector3(0, _hexagonsYOffset * count, -0.2f * count);
     }
 
     public void InitializeStackCount(int count, Color color)
@@ -60,7 +61,10 @@ public class HexagonStack : MonoBehaviour, IDamagable
         //initialize stack count
 
         // take from pool
-        //
+        for (int i = 0; i < count; i++)
+        {
+            ObjectPool.Instance.Get(HEXAGON_POOL_KEY, _hexagonsParent);
+        }
         SetHexagonsPosition(color);
     }
 
@@ -69,7 +73,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
         for (int i = 0; i < _hexagonsParent.childCount; i++)
         {
             Hexagon hexagon = _hexagonsParent.GetChild(i).GetComponent<Hexagon>();
-            hexagon.SetLocalPosition(_hexagonsOffset, i);
+            hexagon.SetLocalPosition(_hexagonsYOffset, i);
             hexagon.SetColor(color);
 
             _activeHexagon.Push(hexagon);

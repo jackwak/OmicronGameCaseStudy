@@ -45,7 +45,7 @@ public class PatternSpawnTrigger : MonoBehaviour
             _hasTriggered = true;
             
             // Trigger pattern spawn
-            LevelManager.Instance.SpawnNextPattern(patternSpawnPosition.transform.position);
+            LevelManager.Instance.SpawnNextPattern(patternSpawnPosition.transform);
             
             // Reset trigger after a delay (optional)
             Invoke(nameof(ResetTrigger), 1f);

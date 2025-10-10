@@ -12,7 +12,7 @@ public class Hexagon : MonoBehaviour
 
     public void SetLocalPosition(float offSet, int index)
     {
-        transform.localPosition = Vector3.up * offSet * index;
+        transform.localPosition = Vector3.up * offSet * index + new  Vector3(0, 0, -.1f * index);
     }
     
     public void SetActive(bool active)

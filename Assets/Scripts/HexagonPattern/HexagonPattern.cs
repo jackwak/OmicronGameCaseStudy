@@ -6,6 +6,10 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New HexagonPattern", menuName = "Hexagon Pattern")]
 public class HexagonPattern : ScriptableObject
 {
+    
+    [Title(" Pattern Settings ")]
+    public PatternSettings PatternSettings;
+
     [Title("Pattern Settings")]
     [InfoBox("Create multiple stack groups, each with their own stack positions, health ranges, and colors.")]
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "GetGroupLabel")]
@@ -349,11 +353,6 @@ public class StackGroupData
     [InfoBox("Use the grid below to select stack positions for this group.")]
     [ReadOnly]
     public List<Vector2Int> StackPositions = new List<Vector2Int>();
-    
-    [Title("Stack References")]
-    [InfoBox("Assign HexagonStack assets to spawn at the positions above.")]
-    [AssetsOnly]
-    public List<HexagonStack> StackReferences = new List<HexagonStack>();
     
     // Helper methods
     public int GetHexagonOnStackCount(int stackHealth)
