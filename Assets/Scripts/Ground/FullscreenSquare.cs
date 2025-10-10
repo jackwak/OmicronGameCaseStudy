@@ -5,18 +5,23 @@ public class FullscreenSquare : MonoBehaviour
 {
     private Camera _mainCam;
     [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private Transform _spawnPosition;
 
     void Awake()
     {
         _mainCam = Camera.main;
         FitToScreen();
+        UpdateSpawnPosition();
     }
 
 #if UNITY_EDITOR
     void Update()
     {
         if (!Application.isPlaying)
+        {
             FitToScreen();
+            UpdateSpawnPosition();
+        }
     }
 #endif
 
@@ -39,5 +44,17 @@ public class FullscreenSquare : MonoBehaviour
         scale.x = worldWidth / spriteWidth;
         scale.y = worldHeight / spriteHeight;
         transform.localScale = scale;
+    }
+
+    private void UpdateSpawnPosition()
+    {
+        if (_spawnPosition == null || _renderer == null)
+            return;
+
+        // Renderer'ın bottom pozisyonunu hesapla
+        Bounds bounds = _renderer.bounds;
+        Vector3 bottomPosition = new Vector3(bounds.min.x, bounds.min.y, bounds.center.z);
+        
+        _spawnPosition.position = bottomPosition;
     }
 }

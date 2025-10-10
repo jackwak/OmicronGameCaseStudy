@@ -52,7 +52,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private void InitializeText(float health, int count)
     {
         _healthText.text = health.ToString();
-        _healthText.transform.position = Vector3.up * count * _hexagonsOffset;
+        _healthText.transform.localPosition = Vector3.up * count * _hexagonsOffset;
     }
 
     public void InitializeStackCount(int count, Color color)

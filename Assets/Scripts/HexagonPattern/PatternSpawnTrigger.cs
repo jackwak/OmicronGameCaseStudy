@@ -3,8 +3,9 @@ using UnityEngine;
 public class PatternSpawnTrigger : MonoBehaviour
 {
     public float VerticalOffset = 0.5f;
-
+    
     private Camera _mainCam;
+    private bool _hasTriggered = false;
 
     void Awake()
     {
@@ -20,7 +21,7 @@ public class PatternSpawnTrigger : MonoBehaviour
     }
 #endif
 
-    [ContextMenu(" Update  Pos ")]
+    [ContextMenu("Update Pos")]
     private void UpdatePosition()
     {
         if (_mainCam == null)
@@ -35,12 +36,24 @@ public class PatternSpawnTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out FullscreenSquare square))
+        // Prevent multiple triggers
+        if (_hasTriggered)
+            return;
+            
+        if (other.TryGetComponent(out PatternSpawnPosition patternSpawnPosition))
         {
-            foreach (var position in square.transform.GetChild(1))
-            {
-                // pozisyonlarda spawn et
-            }
+            _hasTriggered = true;
+            
+            // Trigger pattern spawn
+            LevelManager.Instance.SpawnNextPattern(patternSpawnPosition.transform.position);
+            
+            // Reset trigger after a delay (optional)
+            Invoke(nameof(ResetTrigger), 1f);
         }
+    }
+    
+    private void ResetTrigger()
+    {
+        _hasTriggered = false;
     }
 }
