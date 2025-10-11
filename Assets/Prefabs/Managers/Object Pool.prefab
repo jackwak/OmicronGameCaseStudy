@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1961812998481057069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1130454611812431932}
+  - component: {fileID: 3940917096676721854}
+  m_Layer: 0
+  m_Name: Object Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1130454611812431932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961812998481057069}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3940917096676721854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961812998481057069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf126a27ac7604440b2b52cef255e062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pools:
+  - Key: Hexagon
+    Prefab: {fileID: 8607729677287924429, guid: 7623f453a0e684501bd1c6b9566e1cea, type: 3}
+    InitialSize: 150
+    ParentOverride: {fileID: 0}
+  - Key: HexagonStack
+    Prefab: {fileID: 9130672291126090375, guid: 36d29fd35258b4995816cc7331963e99, type: 3}
+    InitialSize: 40
+    ParentOverride: {fileID: 0}
+  - Key: RotationStackGroup
+    Prefab: {fileID: 1121213556959867580, guid: 5400b34b2886ef541ae6b3c72dc9d6f1, type: 3}
+    InitialSize: 4
+    ParentOverride: {fileID: 0}
+  - Key: OscillatingStackGroup
+    Prefab: {fileID: 1097425796049996144, guid: a4f42bc4470dfc646ba55cd663885d19, type: 3}
+    InitialSize: 4
+    ParentOverride: {fileID: 0}
+  - Key: StaticStackGroup
+    Prefab: {fileID: 8457672597506885267, guid: f92eec5cc2790164e9dac18ed5fac7a0, type: 3}
+    InitialSize: 4
+    ParentOverride: {fileID: 0}

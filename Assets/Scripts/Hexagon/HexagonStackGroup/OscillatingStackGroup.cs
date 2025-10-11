@@ -12,19 +12,19 @@ public class OscillatingStackGroup : HexagonStackGroup
     
     public Vector3 OscillationDirection = Vector3.right;
     
-    private Vector3 _startPosition;
+    private Vector3 _startLocalPosition;
     private float _time;
     
     protected override void OnGroupInitialized()
     {
         GroupName = "Oscillating Group";
-        _startPosition = transform.position;
+         _startLocalPosition = transform.localPosition;
     }
     
     protected override void UpdateGroupBehavior()
     {
         _time += Time.deltaTime * Frequency;
         float offset = Mathf.Sin(_time * Mathf.PI * 2f) * Amplitude;
-        transform.position = _startPosition + OscillationDirection.normalized * offset;
+        transform.localPosition = _startLocalPosition + OscillationDirection.normalized * offset;
     }
 }

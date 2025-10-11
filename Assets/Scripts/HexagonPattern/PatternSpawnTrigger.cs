@@ -6,6 +6,7 @@ public class PatternSpawnTrigger : MonoBehaviour
     
     private Camera _mainCam;
     private bool _hasTriggered = false;
+    private bool _isFirstTriggered = true;
 
     void Awake()
     {
@@ -43,17 +44,22 @@ public class PatternSpawnTrigger : MonoBehaviour
         if (other.TryGetComponent(out PatternSpawnPosition patternSpawnPosition))
         {
             _hasTriggered = true;
+            if (_isFirstTriggered)
+            {
+                _isFirstTriggered = false;
+                EventManager.Instance.OnTriggerFirstSpawn();
+            }
             
             // Trigger pattern spawn
             LevelManager.Instance.SpawnNextPattern(patternSpawnPosition.transform);
-            
-            // Reset trigger after a delay (optional)
-            Invoke(nameof(ResetTrigger), 1f);
+
+            ResetTrigger();
         }
     }
-    
+
     private void ResetTrigger()
     {
         _hasTriggered = false;
+        _isFirstTriggered = true;
     }
 }

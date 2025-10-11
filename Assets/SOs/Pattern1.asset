@@ -56,7 +56,7 @@ MonoBehaviour:
     - {x: 4, y: 4}
     RotationSpeed: 45
     RotationAxis: {x: 0, y: 0, z: 1}
-    PivotPosition: 2
+    PivotPosition: 0
     Amplitude: 2
     Frequency: 1
     OscillationDirection: {x: 1, y: 0, z: 0}

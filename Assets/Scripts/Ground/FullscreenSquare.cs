@@ -6,6 +6,7 @@ public class FullscreenSquare : MonoBehaviour
     private Camera _mainCam;
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private Transform _spawnPosition;
+    [SerializeField] private PatternSettings _patternSettings;
 
     void Awake()
     {
@@ -53,7 +54,7 @@ public class FullscreenSquare : MonoBehaviour
 
         // Renderer'ın bottom pozisyonunu hesapla
         Bounds bounds = _renderer.bounds;
-        Vector3 bottomPosition = new Vector3(bounds.min.x, bounds.min.y, bounds.center.z);
+        Vector3 bottomPosition = new Vector3(bounds.min.x + _patternSettings.HexRadius / 2, bounds.min.y, bounds.center.z);
         
         _spawnPosition.position = bottomPosition;
     }

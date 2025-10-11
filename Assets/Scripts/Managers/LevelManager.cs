@@ -30,14 +30,8 @@ public class LevelManager : MonoBehaviour
     
     private void Awake()
     {
-        // Singleton pattern
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         Instance = this;
+
         LoadLevel(CurrentLevel);
     }
     
@@ -46,16 +40,13 @@ public class LevelManager : MonoBehaviour
         CurrentLevel = levelNumber;
         _currentPatternIndex = 0;
         
-        // Get level data (levelNumber is 1-based, array is 0-based)
         int dataIndex = levelNumber - 1;
         if (dataIndex >= 0 && dataIndex < LevelDataList.Count)
         {
             _currentLevelData = LevelDataList[dataIndex];
-            Debug.Log($"Loaded Level {levelNumber} with {_currentLevelData.GetPatternCount()} patterns");
         }
         else
         {
-            Debug.LogError($"Level {levelNumber} data not found!");
             _currentLevelData = null;
         }
     }

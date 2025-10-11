@@ -1,16 +1,53 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static EventManager Instance;
+
+    void Awake()
     {
-        
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public UnityAction StartGame;
+
+    //State Events
+    public UnityAction EnterReadyState;
+    public UnityAction EnterGameState;
+    public UnityAction ExitGameState;
+
+    public UnityAction FinishGame;
+    public UnityAction TriggerFirstSpawn;
+
+
+    public void OnStartGame()
     {
-        
+        StartGame?.Invoke();
+    }
+
+    public void OnFinishGame()
+    {
+        FinishGame?.Invoke();
+    }
+
+    public void OnTriggerFirstSpawn()
+    {
+        TriggerFirstSpawn?.Invoke();
+    }
+
+    public void OnEnterReadyState()
+    {
+        EnterReadyState?.Invoke();
+    }
+
+    public void OnEnterGameState()
+    {
+        EnterGameState?.Invoke();
+    }
+
+    public void OnExitGameState()
+    {
+        ExitGameState?.Invoke();
     }
 }
