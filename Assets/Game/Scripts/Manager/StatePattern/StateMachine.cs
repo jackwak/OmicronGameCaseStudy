@@ -6,6 +6,8 @@ public class StateMachine
 
     public void ChangeState(IState newState)
     {
+        if (_currentState == newState) return;
+
         _currentState?.Exit();
         _currentState = newState;
         _currentState.Enter();
@@ -46,5 +48,10 @@ public class ReadyState : IState
 
     public void Update()
     {
+        Vector2 delta = InputManager.Instance.SwipeDelta;
+        if (delta.magnitude > 0)
+        {
+            GameManager.Instance.SwitchToGameState();
+        }
     }
 }

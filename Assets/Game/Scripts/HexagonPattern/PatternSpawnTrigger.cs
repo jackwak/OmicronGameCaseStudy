@@ -1,65 +1,14 @@
 using UnityEngine;
 
-public class PatternSpawnTrigger : MonoBehaviour
+public class PatternSpawnTrigger : StretchToScreen
 {
-    public float VerticalOffset = 0.5f;
-    
-    private Camera _mainCam;
-    private bool _hasTriggered = false;
-    private bool _isFirstTriggered = true;
-
-    void Awake()
-    {
-        _mainCam = Camera.main;
-        UpdatePosition();
-    }
-
-#if UNITY_EDITOR
-    void Update()
-    {
-        if (!Application.isPlaying)
-            UpdatePosition();
-    }
-#endif
-
-    [ContextMenu("Update Pos")]
-    private void UpdatePosition()
-    {
-        if (_mainCam == null)
-            _mainCam = Camera.main;
-        if (_mainCam == null)
-            return;
-
-        Vector3 topCenter = _mainCam.ViewportToWorldPoint(new Vector3(0.5f, 1f, _mainCam.nearClipPlane));
-        topCenter.z = 0;
-        transform.position = topCenter + Vector3.down * VerticalOffset;
-    }
-
     void OnTriggerEnter(Collider other)
     {
-        // Prevent multiple triggers
-        if (_hasTriggered)
-            return;
-            
         if (other.TryGetComponent(out PatternSpawnPosition patternSpawnPosition))
         {
-            _hasTriggered = true;
-            if (_isFirstTriggered)
-            {
-                _isFirstTriggered = false;
-                EventManager.Instance.OnTriggerFirstSpawn();
-            }
-            
             // Trigger pattern spawn
+            patternSpawnPosition.IsCreatedHexagon = true;
             LevelManager.Instance.SpawnNextPattern(patternSpawnPosition.transform);
-
-            ResetTrigger();
         }
-    }
-
-    private void ResetTrigger()
-    {
-        _hasTriggered = false;
-        _isFirstTriggered = true;
     }
 }
