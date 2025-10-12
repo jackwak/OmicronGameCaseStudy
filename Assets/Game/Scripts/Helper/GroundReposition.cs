@@ -22,6 +22,8 @@ public class GroundReposition : MonoBehaviour
     {
         if (other.TryGetComponent(out PatternSpawnPosition patternSpawnPosition))
         {
+            patternSpawnPosition.ReturnToPoolChildObjects();
+            
             Vector3 pos = patternSpawnPosition.transform.parent.position;
             patternSpawnPosition.transform.parent.position = new Vector3(pos.x, pos.y + _screenHeightWorld * 3f, pos.z);
         }

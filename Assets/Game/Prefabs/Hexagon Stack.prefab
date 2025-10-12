@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47b0049ac75346b388fc31a4ca5514b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hexagonsParent: {fileID: 3479756975457976148}
+  _octagonsParent: {fileID: 3479756975457976148}
   _healthText: {fileID: 4526429651303121997}
 --- !u!114 &-7654802494204252856
 MonoBehaviour:

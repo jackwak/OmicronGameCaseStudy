@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pools:
-  - Key: Hexagon
+  - Key: Octagon
     Prefab: {fileID: 8607729677287924429, guid: 7623f453a0e684501bd1c6b9566e1cea, type: 3}
     InitialSize: 150
     ParentOverride: {fileID: 0}
-  - Key: HexagonStack
+  - Key: OctagonStack
     Prefab: {fileID: 9130672291126090375, guid: 36d29fd35258b4995816cc7331963e99, type: 3}
     InitialSize: 40
     ParentOverride: {fileID: 0}

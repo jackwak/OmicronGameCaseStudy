@@ -5,12 +5,12 @@ using UnityEngine;
 public class HexagonStack : MonoBehaviour, IDamagable
 {
     [Header(" References ")]
-    [SerializeField] private Transform _hexagonsParent;
+    [SerializeField] private Transform _octagonsParent;
     [SerializeField] private TextMeshPro _healthText;
 
     [Header(" Settings ")]
-    private float _hexagonsYOffset = 0.065f;
-    private const string HEXAGON_POOL_KEY = "Hexagon";
+    private float _octagonsYOffset = 0.065f;
+    private const string OCTAGON_POOL_KEY = "Octagon";
 
     [Header(" Datas ")]
     private Stack<Hexagon> _activeHexagon = new Stack<Hexagon>();
@@ -53,7 +53,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private void InitializeText(float health, int count)
     {
         _healthText.text = health.ToString();
-        _healthText.transform.localPosition = new Vector3(0, _hexagonsYOffset * count, -0.2f * count);
+        _healthText.transform.localPosition = new Vector3(0, _octagonsYOffset * count, -0.2f * count);
     }
 
     public void InitializeStackCount(int count, Color color)
@@ -63,17 +63,17 @@ public class HexagonStack : MonoBehaviour, IDamagable
         // take from pool
         for (int i = 0; i < count; i++)
         {
-            ObjectPool.Instance.Get(HEXAGON_POOL_KEY, _hexagonsParent);
+            ObjectPool.Instance.Get(OCTAGON_POOL_KEY, _octagonsParent);
         }
         SetHexagonsPosition(color);
     }
 
     private void SetHexagonsPosition(Color color)
     {
-        for (int i = 0; i < _hexagonsParent.childCount; i++)
+        for (int i = 0; i < _octagonsParent.childCount; i++)
         {
-            Hexagon hexagon = _hexagonsParent.GetChild(i).GetComponent<Hexagon>();
-            hexagon.SetLocalPosition(_hexagonsYOffset, i);
+            Hexagon hexagon = _octagonsParent.GetChild(i).GetComponent<Hexagon>();
+            hexagon.SetLocalPosition(_octagonsYOffset, i);
             hexagon.SetColor(color);
 
             _activeHexagon.Push(hexagon);

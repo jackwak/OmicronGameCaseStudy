@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     private LevelData _currentLevelData;
 
     [Title("Pooling Keys")]
-    private const string HEXAGON_STACK_POOL_KEY = "HexagonStack";
+    private const string HEXAGON_STACK_POOL_KEY = "OctagonStack";
     private const string ROTATION_STACK_GROUP_KEY = "RotationStackGroup";
     private const string OSCILLATING_STACK_GROUP_KEY = "OscillatingStackGroup";
     private const string STATIC_STACK_GROUP_KEY = "StaticStackGroup";
