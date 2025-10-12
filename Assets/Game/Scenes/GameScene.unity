@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000a97bde18
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -671,14 +671,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1980432359}
     m_Modifications:
-    - target: {fileID: 215199671194132633, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.4375
-      objectReference: {fileID: 0}
-    - target: {fileID: 215199671194132633, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5
-      objectReference: {fileID: 0}
     - target: {fileID: 1549546269402880558, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
       propertyPath: m_Name
       value: Ground
@@ -693,7 +685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1622648252378696198, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1622648252378696198, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
       propertyPath: m_LocalRotation.w
@@ -722,18 +714,6 @@ PrefabInstance:
     - target: {fileID: 1622648252378696198, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4609599603834637161, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5208333
-      objectReference: {fileID: 0}
-    - target: {fileID: 8348414060864079741, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
-      propertyPath: m_Size.z
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8348414060864079741, guid: 143e193b5c5f95d44aae38264847af73, type: 3}
-      propertyPath: m_Center.z
-      value: -55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

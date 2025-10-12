@@ -69,7 +69,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5.625, y: 10, z: 3}
+  m_Size: {x: 5.625, y: 10, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1712568044347658523
 GameObject:
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0996d9369866d4e993674e608d38c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsCreatedHexagon: 0
 --- !u!65 &5925623533121605622
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -210,8 +211,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 417233833
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7025651857757288288, guid: 5a06591de22c52d44b74b51e1e3f250e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
