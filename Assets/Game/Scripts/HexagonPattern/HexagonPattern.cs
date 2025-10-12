@@ -343,7 +343,7 @@ public class StackGroupData
     
     [MinValue(1)]
     [InfoBox("Reference health value to calculate hexagon count on stacks.")]
-    public int HexagonHealthReference = 1;
+    public int PerOctagonHealth = 1;
     
     [ColorPalette]
     [InfoBox("Color for this group's hexagons.")]
@@ -357,10 +357,7 @@ public class StackGroupData
     // Helper methods
     public int GetHexagonOnStackCount(int stackHealth)
     {
-        if (HexagonHealthReference <= 0)
-            return 0;
-
-        float ratio = (float)stackHealth / HexagonHealthReference;
+        float ratio = (float)stackHealth / PerOctagonHealth;
         int count = Mathf.CeilToInt(ratio);
 
         return Mathf.Clamp(count, 1, 10);

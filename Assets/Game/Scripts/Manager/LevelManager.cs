@@ -248,7 +248,7 @@ public class LevelManager : MonoBehaviour
         // Initialize
         float health = groupData.GetRandomHealth();
         int hexagonCount = groupData.GetHexagonOnStackCount((int)health);
-        stackComponent.InitializeHexagonStack(health, hexagonCount, groupData.GroupColor);
+        stackComponent.InitializeHexagonStack(health, groupData.PerOctagonHealth, hexagonCount, groupData.GroupColor);
 
         if (groupComponent != null)
             groupComponent.RegisterChildStack(stackObject);
