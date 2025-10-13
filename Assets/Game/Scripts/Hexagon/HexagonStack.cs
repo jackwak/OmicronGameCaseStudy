@@ -135,18 +135,16 @@ public class HexagonStack : MonoBehaviour, IDamagable
     {
         if (_activeHexagon.Count == 0) return;
 
-        // En üstteki octagon'u al
         Hexagon topHexagon = _activeHexagon.Pop();
         _currentOctagonCount--;
 
-        // Mevcut rengi kaydet
         SpriteRenderer sr = topHexagon.SpriteRenderer;
         if (sr != null)
         {
             Color originalColor = sr.color;
 
             sr.DOColor(Color.white, .05f)
-              .SetLoops(2, LoopType.Yoyo) // beyazlaşıp geri dönsün
+              .SetLoops(2, LoopType.Yoyo)
               .SetEase(Ease.Linear)
               .OnComplete(() => ObjectPool.Instance.Return(OCTAGON_POOL_KEY, topHexagon.gameObject));
         }
