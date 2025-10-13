@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 1754782418713270910}
   - component: {fileID: -7654802494204252856}
   - component: {fileID: 2915204876534438346}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hexagon Stack
   m_TagString: Untagged
   m_Icon: {fileID: 0}

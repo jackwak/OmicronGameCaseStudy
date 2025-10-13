@@ -65,3 +65,11 @@ MonoBehaviour:
     Prefab: {fileID: 8457672597506885267, guid: f92eec5cc2790164e9dac18ed5fac7a0, type: 3}
     InitialSize: 4
     ParentOverride: {fileID: 0}
+  - Key: Projectile_Bullet
+    Prefab: {fileID: 1274704472783946929, guid: c8a47d62391ebbf45b27a48752642b65, type: 3}
+    InitialSize: 8
+    ParentOverride: {fileID: 0}
+  - Key: Projectile_Bomb
+    Prefab: {fileID: 3341517879328081032, guid: ccad5f0c78b31214d91b4bfc803b9885, type: 3}
+    InitialSize: 4
+    ParentOverride: {fileID: 0}
