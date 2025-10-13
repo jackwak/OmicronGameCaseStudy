@@ -26,5 +26,5 @@ MonoBehaviour:
   damage: 1
   damageLayer:
     serializedVersion: 2
-    m_Bits: 0
-  hitEffectPoolKey: Effect_Hit
+    m_Bits: 64
+  hitEffectPoolKey: Effect_Bullet

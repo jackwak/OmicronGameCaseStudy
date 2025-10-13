@@ -35,18 +35,18 @@ public class Projectile : MonoBehaviour
             ObjectPool.Instance.Return(data.projectilePoolKey, gameObject);
         }
     }
-    
-    void OnTriggerEnter2D(Collider2D other)
+
+    void OnTriggerEnter(Collider other)
     {
         if (hasHit) return;
         
-        if (((1 << other.gameObject.layer) & data.damageLayer) != 0)
+        if (other.TryGetComponent(out IDamagable damagable))
         {
-            OnHit(transform.position);
+            OnHit(transform.position, damagable);
         }
     }
     
-    void OnHit(Vector2 hitPosition)
+    void OnHit(Vector2 hitPosition, IDamagable damagable)
     {
         if (hasHit) return;
         hasHit = true;
@@ -54,7 +54,7 @@ public class Projectile : MonoBehaviour
         if (data.movementType == ProjectileMovementType.CurvedTrajectory)
         {
             // Bomba - Alan hasarı
-            Collider2D[] hits = Physics2D.OverlapCircleAll(hitPosition, data.explosionRadius, data.damageLayer);
+            Collider[] hits = Physics.OverlapSphere(hitPosition, data.explosionRadius, data.damageLayer);
             
             foreach (var hit in hits)
             {
@@ -68,7 +68,7 @@ public class Projectile : MonoBehaviour
         else
         {
             // Bullet - Tek hedef hasarı
-            Collider2D[] hits = Physics2D.OverlapCircleAll(hitPosition, 0.5f, data.damageLayer);
+            Collider[] hits = Physics.OverlapSphere(hitPosition, 0.5f, data.damageLayer);
             if (hits.Length > 0)
             {
                 IDamagable damageable = hits[0].GetComponent<IDamagable>();
@@ -80,12 +80,12 @@ public class Projectile : MonoBehaviour
         }
         
         // Efekt spawn (hepsi için ortak)
-        if (!string.IsNullOrEmpty(data.hitEffectPoolKey))
+        /*if (!string.IsNullOrEmpty(data.hitEffectPoolKey))
         {
             GameObject effect = ObjectPool.Instance.Get(data.hitEffectPoolKey, null);
             effect.transform.position = hitPosition;
             StartCoroutine(ReturnEffectToPool(effect, data.hitEffectPoolKey, 2f));
-        }
+        }*/
         
         ObjectPool.Instance.Return(data.projectilePoolKey, gameObject);
     }
@@ -98,20 +98,11 @@ public class Projectile : MonoBehaviour
             ObjectPool.Instance.Return(poolKey, effect);
         }
     }
-    
-    void OnDrawGizmos()
-    {
-        if (data != null && data.explosionRadius > 0)
-        {
-            Gizmos.color = new Color(1, 0, 0, 0.3f);
-            Gizmos.DrawWireSphere(transform.position, data.explosionRadius);
-        }
-    }
 }
 
 public enum ProjectileMovementType
 {
-    Straight,           // Düz gider (Top)
-    CurvedTrajectory    // Eğrilen yörünge (Bomba)
+    Straight,
+    CurvedTrajectory
 }
 

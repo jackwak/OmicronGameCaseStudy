@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
+using NUnit.Framework.Constraints;
 
 public class HexagonStack : MonoBehaviour, IDamagable
 {
@@ -19,6 +21,8 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private float _perOctagonHealth = 1;
     private int _currentOctagonCount = 0;
 
+    private Tween _stackTakeDamageTween;
+
     // Properties
     public float MaxHealth
     {
@@ -33,7 +37,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
         {
             float previousHealth = _health;
             _health = value;
-            
+
             UpdateHealthText();
             CheckAndBreakOctagons(previousHealth);
             
@@ -94,6 +98,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
 
     public void TakeDamage(float damage)
     {
+        TakeDamageAnimation();
         Health -= damage;
     }
 
@@ -129,16 +134,22 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private void BreakTopOctagon()
     {
         if (_activeHexagon.Count == 0) return;
-        
+
         // En üstteki octagon'u al
         Hexagon topHexagon = _activeHexagon.Pop();
         _currentOctagonCount--;
-        
-        // Kırılma efekti eklenebilir (opsiyonel)
-        // PlayBreakEffect(topHexagon.transform.position);
-        
-        // Pool'a geri gönder
-        ObjectPool.Instance.Return(OCTAGON_POOL_KEY, topHexagon.gameObject);
+
+        // Mevcut rengi kaydet
+        SpriteRenderer sr = topHexagon.SpriteRenderer;
+        if (sr != null)
+        {
+            Color originalColor = sr.color;
+
+            sr.DOColor(Color.white, .05f)
+              .SetLoops(2, LoopType.Yoyo) // beyazlaşıp geri dönsün
+              .SetEase(Ease.Linear)
+              .OnComplete(() => ObjectPool.Instance.Return(OCTAGON_POOL_KEY, topHexagon.gameObject));
+        }
     }
 
     private void UpdateTextPosition()
@@ -147,6 +158,12 @@ public class HexagonStack : MonoBehaviour, IDamagable
         {
             _healthText.transform.localPosition = new Vector3(0, _octagonsYOffset * _currentOctagonCount, -0.2f * _currentOctagonCount);
         }
+    }
+
+    private void TakeDamageAnimation()
+    {
+        _stackTakeDamageTween?.Complete();
+        _stackTakeDamageTween = transform.DOPunchScale(Vector3.one * .2f, .2f, 1);
     }
 
     private void KillHexagonStack()
@@ -159,10 +176,10 @@ public class HexagonStack : MonoBehaviour, IDamagable
                 ObjectPool.Instance.Return(OCTAGON_POOL_KEY, child.gameObject);
             }
         }
-        
+
         _activeHexagon.Clear();
         _currentOctagonCount = 0;
-        
+
         ObjectPool.Instance.Return("HexagonStack", gameObject);
     }
 }
