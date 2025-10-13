@@ -17,8 +17,8 @@ MonoBehaviour:
   - GroupId: 0
     GroupType: 0
     HealthRange: {x: 5, y: 10}
-    PerOctagonHealth: 1
-    GroupColor: {r: 1, g: 1, b: 1, a: 1}
+    PerOctagonHealth: 2
+    GroupColor: {r: 0.776, g: 0.651, b: 0.349, a: 1}
     StackPositions:
     - {x: 0, y: 0}
     - {x: 0, y: 1}

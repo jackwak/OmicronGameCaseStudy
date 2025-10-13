@@ -22,7 +22,7 @@ MonoBehaviour:
   lifetime: 2
   minCurveAngle: -50
   maxCurveAngle: 50
-  explosionRadius: 2
+  explosionRadius: 1
   damage: 3
   damageLayer:
     serializedVersion: 2
