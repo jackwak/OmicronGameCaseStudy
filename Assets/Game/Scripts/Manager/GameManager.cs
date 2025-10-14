@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private StateMachine _stateMachine;
     private GameState _gameState;
     private ReadyState _readyState;
+    private FinishState _finishState;
 
 
     void Start()
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
         _stateMachine = new StateMachine();
         _gameState = new GameState();
         _readyState = new ReadyState();
+        _finishState = new FinishState();
 
         _stateMachine.ChangeState(_readyState);
     }
@@ -37,5 +39,10 @@ public class GameManager : MonoBehaviour
     public void SwitchToReadyState()
     {
         _stateMachine.ChangeState(_readyState);
+    }
+
+    public void SwitchToFinishState()
+    {
+        _stateMachine.ChangeState(_finishState);
     }
 }

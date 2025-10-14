@@ -14,10 +14,6 @@ public class LevelData : ScriptableObject
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "PatternName")]
     public List<HexagonPattern> Patterns = new List<HexagonPattern>();
     
-    [Title("Level Settings")]
-    [InfoBox("Global settings for this level.")]
-    public float PatternSpacing = 10f; // Distance between patterns
-    
     public int GetPatternCount()
     {
         return Patterns != null ? Patterns.Count : 0;

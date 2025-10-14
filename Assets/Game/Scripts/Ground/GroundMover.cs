@@ -15,6 +15,7 @@ public class GroundMover : MonoBehaviour
         EventManager.Instance.EnterGameState += SetStartSpeed;
         EventManager.Instance.TriggerFirstSpawn += SetNormalSpeed;
         EventManager.Instance.ExitGameState += StopGrounds;
+        EventManager.Instance.EnterFinishState += StopGrounds;
     }
 
     void OnDisable()
@@ -22,6 +23,7 @@ public class GroundMover : MonoBehaviour
         EventManager.Instance.EnterGameState -= SetStartSpeed;
         EventManager.Instance.TriggerFirstSpawn -= SetNormalSpeed;
         EventManager.Instance.ExitGameState -= StopGrounds;
+        EventManager.Instance.EnterFinishState -= StopGrounds;
     }
 
     void Update()

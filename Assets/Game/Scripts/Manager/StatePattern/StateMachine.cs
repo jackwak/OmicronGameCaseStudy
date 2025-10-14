@@ -49,9 +49,27 @@ public class ReadyState : IState
     public void Update()
     {
         Vector2 delta = InputManager.Instance.SwipeDelta;
-        if (delta.magnitude > 0)
+        if (delta.magnitude > 0 ||InputManager.Instance.IsTouching)
         {
             GameManager.Instance.SwitchToGameState();
         }
+    }
+}
+
+public class FinishState : IState
+{
+    public void Enter()
+    {
+        EventManager.Instance.OnEnterFinishState();
+    }
+
+    public void Exit()
+    {
+
+    }
+
+    public void Update()
+    {
+
     }
 }

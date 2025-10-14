@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GroundMoverSettings
   m_EditorClassIdentifier: 
   Speed: 1
+  StartSpeed: 10

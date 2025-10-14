@@ -31,15 +31,28 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
 
+    void OnEnable()
+    {
+        EventManager.Instance.EnterReadyState += LoadCurrentLevel;
+    }
+
+    void OnDisable()
+    {
+        EventManager.Instance.EnterReadyState -= LoadCurrentLevel;
+    }
+
+    public void LoadCurrentLevel()
+    {
         LoadLevel(CurrentLevel);
     }
-    
+
     public void LoadLevel(int levelNumber)
     {
         CurrentLevel = levelNumber;
         _currentPatternIndex = 0;
-        
+
         int dataIndex = levelNumber - 1;
         if (dataIndex >= 0 && dataIndex < LevelDataList.Count)
         {
@@ -51,34 +64,28 @@ public class LevelManager : MonoBehaviour
         }
     }
     
+    public int GetPatternCount(){ return _currentLevelData.GetPatternCount(); }
+    
     public void SpawnNextPattern(Transform spawnTransform)
     {
-        Debug.Log("=== SpawnNextPattern called with position ===");
-        
         if (_currentLevelData == null)
         {
-            Debug.LogError("No level data loaded!");
             return;
         }
-        
-        Debug.Log($"Current pattern index: {_currentPatternIndex}, Total patterns: {_currentLevelData.GetPatternCount()}");
-        
+
         HexagonPattern pattern = _currentLevelData.GetPattern(_currentPatternIndex);
-        
         if (pattern == null)
         {
-            Debug.LogWarning($"Pattern {_currentPatternIndex} is null or level completed!");
+            SpawnFinishLine(spawnTransform);
             return;
         }
-        
-        Debug.Log($"Spawning Pattern {_currentPatternIndex}: {pattern.name} with {pattern.StackGroups.Count} groups at position {spawnTransform.position}");
-        
+
         // Spawn the pattern at the given position
         SpawnPattern(pattern, spawnTransform);
-        
+
         // Move to next pattern
         _currentPatternIndex++;
-        
+
         // Check if level is completed
         if (_currentPatternIndex >= _currentLevelData.GetPatternCount())
         {
@@ -92,6 +99,13 @@ public class LevelManager : MonoBehaviour
         {
             SpawnStackGroup(groupData, pattern, spawnTransform);
         }
+    }
+
+    private void SpawnFinishLine(Transform spawnTransform)
+    {
+        GameObject groupObject = ObjectPool.Instance.Get("FinishLine");
+        groupObject.transform.SetParent(spawnTransform);
+        groupObject.transform.localPosition = new Vector3(0, 0, -1);
     }
     
     private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform)
@@ -124,21 +138,21 @@ public class LevelManager : MonoBehaviour
 
         groupObject.transform.SetParent(spawnTransform);
         groupObject.transform.localPosition = new Vector3(0, 0, -1);
-        
+
         if (groupComponent != null)
         {
             groupComponent.IsActive = true;
         }
-        
+
         List<GameObject> tempStacks = new List<GameObject>();
-        
+
         foreach (var gridPosition in groupData.StackPositions)
         {
             GameObject stack = SpawnStackAtPosition(gridPosition, groupData, pattern, groupObject.transform, groupComponent);
             if (stack != null)
                 tempStacks.Add(stack);
         }
-        
+
         if (groupData.GroupType == StackGroupType.Rotating && tempStacks.Count > 0)
         {
             AdjustGroupPivot(groupObject.transform, tempStacks, groupData.PivotPosition);

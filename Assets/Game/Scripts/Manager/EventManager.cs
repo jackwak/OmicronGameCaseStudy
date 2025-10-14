@@ -14,6 +14,7 @@ public class EventManager : MonoBehaviour
 
     //State Events
     public UnityAction EnterReadyState;
+    public UnityAction EnterFinishState;
     public UnityAction EnterGameState;
     public UnityAction ExitGameState;
 
@@ -49,5 +50,10 @@ public class EventManager : MonoBehaviour
     public void OnExitGameState()
     {
         ExitGameState?.Invoke();
+    }
+
+    public void OnEnterFinishState()
+    {
+        EnterFinishState?.Invoke();
     }
 }

@@ -6,27 +6,40 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float maxRotation = 15f;
     [SerializeField] private float rotationSpeed = 0.2f;
-    
+
     private Tweener rotationTween;
     private float lastDeltaX = 0;
     private float minX;
     private float maxX;
+    private bool _canPlayerMove;
+
+    private void OnEnable()
+    {
+        EventManager.Instance.EnterGameState += SetCanPlayerMoveTrue;    
+        EventManager.Instance.EnterFinishState += SetCanPlayerMoveFalse;    
+    }
+
+    void OnDisable()
+    {
+        EventManager.Instance.EnterGameState -= SetCanPlayerMoveTrue;    
+        EventManager.Instance.EnterFinishState -= SetCanPlayerMoveFalse;  
+    }
 
     void Start()
     {
         // Kameranın görüş alanını hesapla
         Camera mainCamera = Camera.main;
-        float halfPlayerWidth = GetComponent<SpriteRenderer>() != null 
-            ? GetComponent<SpriteRenderer>().bounds.extents.x 
+        float halfPlayerWidth = GetComponent<SpriteRenderer>() != null
+            ? GetComponent<SpriteRenderer>().bounds.extents.x
             : 0.5f;
-        
+
         minX = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + halfPlayerWidth;
         maxX = mainCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - halfPlayerWidth;
     }
 
     void Update()
     {
-        if (InputManager.Instance == null) return;
+        if (!_canPlayerMove) return;
 
         Vector2 delta = InputManager.Instance.SwipeDelta;
         Move(delta);
@@ -68,5 +81,14 @@ public class PlayerMovement : MonoBehaviour
         rotationTween?.Kill();
         rotationTween = transform.DORotate(new Vector3(0, 0, targetRotation), rotationSpeed)
             .SetEase(Ease.OutQuad);
+    }
+
+    private void SetCanPlayerMoveTrue()
+    {
+        _canPlayerMove = true;
+    }
+    private void SetCanPlayerMoveFalse()
+    {
+        _canPlayerMove = false;
     }
 }
