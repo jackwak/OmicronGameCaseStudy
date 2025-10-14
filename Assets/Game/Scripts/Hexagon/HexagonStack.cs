@@ -35,12 +35,9 @@ public class HexagonStack : MonoBehaviour, IDamagable
         get => _health;
         set
         {
-            float previousHealth = _health;
             _health = value;
 
             UpdateHealthText();
-            CheckAndBreakOctagons(previousHealth);
-            
             if (_health <= 0)
             {
                 KillHexagonStack();
@@ -93,11 +90,12 @@ public class HexagonStack : MonoBehaviour, IDamagable
 
     private void ResetHealth()
     {
-        Health = MaxHealth;
+        _health = MaxHealth;
     }
 
     public void TakeDamage(float damage)
     {
+        CheckAndBreakOctagons(Health);
         TakeDamageAnimation();
         Health -= damage;
     }
@@ -142,7 +140,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
         if (sr != null)
         {
             Color originalColor = sr.color;
-
+            Debug.LogError("Breaktop");
             sr.DOColor(Color.white, .05f)
               .SetLoops(2, LoopType.Yoyo)
               .SetEase(Ease.Linear)
@@ -170,6 +168,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
         {
             while (_octagonsParent.childCount > 0)
             {
+                Debug.LogError(" Kill hexagonstac ");
                 Transform child = _octagonsParent.GetChild(0);
                 ObjectPool.Instance.Return(OCTAGON_POOL_KEY, child.gameObject);
             }

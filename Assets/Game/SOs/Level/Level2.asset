@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b857556f8a9d594ab44c465e4ccdc8d, type: 3}
-  m_Name: WeaponData
+  m_Script: {fileID: 11500000, guid: 4e322420194c824489d6e13fe8732634, type: 3}
+  m_Name: Level2
   m_EditorClassIdentifier: 
-  projectiles:
-  - {fileID: 11400000, guid: 135a90b1994bf384d852c67436bbefee, type: 2}
-  - {fileID: 11400000, guid: e0326e05616cc944a89c9ce3df31fb1a, type: 2}
+  LevelNumber: 0
+  Patterns:
+  - {fileID: 11400000, guid: 2fc1bf6b38ebcf24eadef0c4ce29ec4f, type: 2}
+  PatternSpacing: 10

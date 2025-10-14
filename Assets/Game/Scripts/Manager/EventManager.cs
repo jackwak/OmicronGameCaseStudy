@@ -18,6 +18,8 @@ public class EventManager : MonoBehaviour
     public UnityAction EnterGameState;
     public UnityAction ExitGameState;
 
+
+    public UnityAction CollideWithOctagon;
     public UnityAction FinishGame;
     public UnityAction TriggerFirstSpawn;
 
@@ -55,5 +57,10 @@ public class EventManager : MonoBehaviour
     public void OnEnterFinishState()
     {
         EnterFinishState?.Invoke();
+    }
+
+    public void OnCollideWithOctagon()
+    {
+        CollideWithOctagon?.Invoke();
     }
 }

@@ -12,11 +12,13 @@ public class PatternSpawnPosition : MonoBehaviour
     void OnEnable()
     {
         EventManager.Instance.EnterGameState += ResetData;
+        EventManager.Instance.EnterFinishState += ReturnToPoolChildObjects;
     }
 
     void OnDisable()
     {
         EventManager.Instance.EnterGameState -= ResetData;
+        EventManager.Instance.EnterFinishState -= ReturnToPoolChildObjects;
     }
 
     public void ResetData()

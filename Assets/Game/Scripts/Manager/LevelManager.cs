@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     
     [Title("Current Level")]
     [ReadOnly, ShowInInspector]
-    public int CurrentLevel = 1; // 1-based (Level 1, 2, 3...)
+    private int _currentLevel = 1; // 1-based (Level 1, 2, 3...)
     
     [ReadOnly, ShowInInspector]
     private int _currentPatternIndex = 0; // 0-based (array index)
@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     private const string ROTATION_STACK_GROUP_KEY = "RotationStackGroup";
     private const string OSCILLATING_STACK_GROUP_KEY = "OscillatingStackGroup";
     private const string STATIC_STACK_GROUP_KEY = "StaticStackGroup";
-    
+
     private void Awake()
     {
         Instance = this;
@@ -45,12 +45,13 @@ public class LevelManager : MonoBehaviour
 
     public void LoadCurrentLevel()
     {
-        LoadLevel(CurrentLevel);
+        _currentLevel = PlayerPrefs.GetInt("Level", 1);
+        LoadLevel(_currentLevel);
     }
 
     public void LoadLevel(int levelNumber)
     {
-        CurrentLevel = levelNumber;
+        _currentLevel = levelNumber;
         _currentPatternIndex = 0;
 
         int dataIndex = levelNumber - 1;
@@ -60,7 +61,8 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            _currentLevelData = null;
+            int randomLevelIndex = Random.Range(0, LevelDataList.Count);
+            _currentLevelData = LevelDataList[randomLevelIndex];
         }
     }
     
@@ -105,7 +107,7 @@ public class LevelManager : MonoBehaviour
     {
         GameObject groupObject = ObjectPool.Instance.Get("FinishLine");
         groupObject.transform.SetParent(spawnTransform);
-        groupObject.transform.localPosition = new Vector3(0, 0, -1);
+        groupObject.transform.localPosition = new Vector3(0, 0, 0);
     }
     
     private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform)
@@ -281,14 +283,14 @@ public class LevelManager : MonoBehaviour
     
     private void OnLevelCompleted()
     {
-        Debug.Log($"Level {CurrentLevel} completed!");
+        Debug.Log($"Level {_currentLevel} completed!");
         // TODO: Handle level completion
     }
 
     [Button("Reset Level", ButtonSizes.Medium)]
     private void ResetLevel()
     {
-        LoadLevel(CurrentLevel);
+        LoadLevel(_currentLevel);
         Debug.Log("Level reset!");
     }
     
