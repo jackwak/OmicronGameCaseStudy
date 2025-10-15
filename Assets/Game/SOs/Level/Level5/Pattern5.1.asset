@@ -29,7 +29,7 @@ MonoBehaviour:
     RotationAxis: {x: 0, y: 0, z: -1}
     PivotPosition: 2
     Amplitude: 3
-    Frequency: 2
+    Frequency: 0.1
     OscillationDirection: {x: 1, y: 1, z: 0}
   - GroupId: 1
     GroupType: 2
@@ -46,7 +46,7 @@ MonoBehaviour:
     RotationAxis: {x: 0, y: 0, z: 1}
     PivotPosition: 1
     Amplitude: 3
-    Frequency: 2
+    Frequency: 0.1
     OscillationDirection: {x: 1, y: -1, z: 0}
   - GroupId: 2
     GroupType: 2
@@ -63,7 +63,7 @@ MonoBehaviour:
     RotationAxis: {x: 0, y: 0, z: 1}
     PivotPosition: 1
     Amplitude: 3
-    Frequency: 2
+    Frequency: 0.1
     OscillationDirection: {x: -1, y: -1, z: 0}
   - GroupId: 3
     GroupType: 2
@@ -80,7 +80,7 @@ MonoBehaviour:
     RotationAxis: {x: 0, y: 0, z: 1}
     PivotPosition: 1
     Amplitude: 3
-    Frequency: 2
+    Frequency: 0.1
     OscillationDirection: {x: -1, y: 1, z: 0}
   GridWidth: 9
   GridHeight: 9

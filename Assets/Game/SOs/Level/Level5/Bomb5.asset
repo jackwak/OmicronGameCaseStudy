@@ -16,14 +16,14 @@ MonoBehaviour:
   fireRate: 2
   projectilesPerShot: 4
   delayBetweenProjectiles: 0.1
-  spreadAngle: 90
+  spreadAngle: 15
   movementType: 1
-  speed: 10
-  lifetime: 5
-  minCurveAngle: -45
-  maxCurveAngle: 45
+  speed: 4
+  lifetime: 2
+  minCurveAngle: -180
+  maxCurveAngle: 180
   explosionRadius: 1.5
-  damage: 15
+  damage: 20
   damageLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -8,7 +8,6 @@ public class FinishLine : MonoBehaviour
         {
             GameManager.Instance.SwitchToFinishState();
             EventManager.Instance.OnGameWin();
-            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
         }
     }
 }

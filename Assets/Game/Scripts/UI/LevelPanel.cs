@@ -7,6 +7,6 @@ public class LevelPanel : MonoBehaviour
     
     void Start()
     {
-        _levelText.text = $"Level {PlayerPrefs.GetInt("Level", 1)}";
+        _levelText.text = $"Level {LevelManager.Instance.GetLevelNumber}";
     }
 }

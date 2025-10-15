@@ -27,26 +27,32 @@ public class LevelManager : MonoBehaviour
     private const string OSCILLATING_STACK_GROUP_KEY = "OscillatingStackGroup";
     private const string STATIC_STACK_GROUP_KEY = "StaticStackGroup";
 
+    public int GetLevelNumber => _currentLevel;
+
     private void Awake()
     {
         Instance = this;
+        _currentLevel = PlayerPrefs.GetInt("Level", 1);
     }
 
     void OnEnable()
     {
         EventManager.Instance.EnterReadyState += LoadCurrentLevel;
+        EventManager.Instance.GameWin += IncreaseCurrentLevelNumber;
     }
 
     void OnDisable()
     {
         EventManager.Instance.EnterReadyState -= LoadCurrentLevel;
+        EventManager.Instance.GameWin -= IncreaseCurrentLevelNumber;
     }
 
     public void LoadCurrentLevel()
     {
-        _currentLevel = PlayerPrefs.GetInt("Level", 1);
         LoadLevel(_currentLevel);
     }
+
+    public void IncreaseCurrentLevelNumber(){ _currentLevel++; }
 
     public void LoadLevel(int levelNumber)
     {
@@ -125,24 +131,9 @@ public class LevelManager : MonoBehaviour
 
         Camera mainCamera = Camera.main;
         float screenWidth = mainCamera.orthographicSize * 2f * mainCamera.aspect;
-
-        // Grid'in toplam genişliği (world space'de)
         float gridWidth = (maxX - minX) * pattern.PatternSettings.HexRadius;
-
-        // Spawn position zaten ekranın sol kenarında (min.x)
-        // Grid'i ortalamak için: (ekran genişliği - grid genişliği) / 2
         float offset = (screenWidth - gridWidth) / 2f;
-
-        // minX'i de hesaba kat (eğer grid 0'dan başlamıyorsa)
         offset -= minX * pattern.PatternSettings.HexRadius;
-
-        Debug.Log($"=== CENTERING DEBUG ===");
-        Debug.Log($"MinX: {minX}, MaxX: {maxX}");
-        Debug.Log($"HexRadius: {pattern.PatternSettings.HexRadius}");
-        Debug.Log($"Grid Width: {gridWidth}");
-        Debug.Log($"Screen Width: {screenWidth}");
-        Debug.Log($"Final Offset: {offset}");
-        Debug.Log($"======================");
 
         return offset;
     }
