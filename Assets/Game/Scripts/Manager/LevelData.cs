@@ -26,11 +26,4 @@ public class LevelData : ScriptableObject
             return null;
         return Patterns[index];
     }
-    
-    private string PatternName(HexagonPattern pattern, int index)
-    {
-        if (pattern == null)
-            return $"Pattern {index}: [Empty]";
-        return $"Pattern {index}: {pattern.name} ({pattern.StackGroups.Count} groups)";
-    }
 }

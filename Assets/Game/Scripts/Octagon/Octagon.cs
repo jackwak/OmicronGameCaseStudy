@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Hexagon : MonoBehaviour
+public class Octagon : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
 

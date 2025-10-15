@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using NUnit.Framework.Constraints;
 
-public class HexagonStack : MonoBehaviour, IDamagable
+public class OctagonStack : MonoBehaviour, IDamagable
 {
     [Header(" References ")]
     [SerializeField] private Transform _octagonsParent;
@@ -15,7 +15,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
     private const string OCTAGON_POOL_KEY = "Octagon";
 
     [Header(" Datas ")]
-    private Stack<Hexagon> _activeHexagon = new Stack<Hexagon>();
+    private Stack<Octagon> _activeHexagon = new Stack<Octagon>();
     private float _maxHealth = 20f;
     private float _health;
     private float _perOctagonHealth = 1;
@@ -80,7 +80,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
     {
         for (int i = 0; i < _octagonsParent.childCount; i++)
         {
-            Hexagon hexagon = _octagonsParent.GetChild(i).GetComponent<Hexagon>();
+            Octagon hexagon = _octagonsParent.GetChild(i).GetComponent<Octagon>();
             hexagon.SetLocalPosition(_octagonsYOffset, i);
             hexagon.SetColor(color);
 
@@ -135,7 +135,7 @@ public class HexagonStack : MonoBehaviour, IDamagable
     {
         if (_activeHexagon.Count == 0) return;
 
-        Hexagon topHexagon = _activeHexagon.Pop();
+        Octagon topHexagon = _activeHexagon.Pop();
         _currentOctagonCount--;
 
         SpriteRenderer sr = topHexagon.SpriteRenderer;

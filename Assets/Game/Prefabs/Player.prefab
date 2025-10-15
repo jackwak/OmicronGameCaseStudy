@@ -372,9 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8321efdc61474ae408dd1d3de0befd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 11400000, guid: b5461e643791e6949b2fc60d883663d0, type: 2}
-  firePoint: {fileID: 4886207070520538230}
-  drawDebug: 1
+  _currentWeapon: {fileID: 0}
+  _firePoint: {fileID: 4886207070520538230}
 --- !u!114 &6158631246276514838
 MonoBehaviour:
   m_ObjectHideFlags: 0

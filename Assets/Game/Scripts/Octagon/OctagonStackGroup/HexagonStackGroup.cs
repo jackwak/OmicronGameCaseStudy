@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 /// <summary>
 /// Base class for hexagon stack groups with different behaviors
 /// </summary>
-public abstract class HexagonStackGroup : MonoBehaviour
+public abstract class OctagonStackGroup : MonoBehaviour
 {
     [Title("Group Settings")]
     [ReadOnly]
@@ -32,23 +32,15 @@ public abstract class HexagonStackGroup : MonoBehaviour
             UpdateGroupBehavior();
         }
     }
-    
-    /// <summary>
-    /// Called once when the group is spawned
-    /// </summary>
+
     protected virtual void OnGroupInitialized()
     {
         // Override in derived classes
     }
-    
-    /// <summary>
-    /// Called every frame - implement group-specific behavior here
-    /// </summary>
+
     protected abstract void UpdateGroupBehavior();
     
-    /// <summary>
-    /// Register a spawned stack as child
-    /// </summary>
+
     public void RegisterChildStack(GameObject stack)
     {
         if (!ChildStacks.Contains(stack))
@@ -57,17 +49,12 @@ public abstract class HexagonStackGroup : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Remove a destroyed stack from children
-    /// </summary>
+
     public void UnregisterChildStack(GameObject stack)
     {
         ChildStacks.Remove(stack);
     }
     
-    /// <summary>
-    /// Get all alive child stacks
-    /// </summary>
     public List<GameObject> GetAliveStacks()
     {
         ChildStacks.RemoveAll(s => s == null);

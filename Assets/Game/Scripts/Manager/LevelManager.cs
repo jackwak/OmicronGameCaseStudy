@@ -148,7 +148,7 @@ public class LevelManager : MonoBehaviour
     private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform, float xOffset)
     {
         GameObject groupObject = null;
-        HexagonStackGroup groupComponent = null;
+        OctagonStackGroup groupComponent = null;
 
         switch (groupData.GroupType)
         {
@@ -271,7 +271,7 @@ public class LevelManager : MonoBehaviour
         StackGroupData groupData,
         HexagonPattern pattern,
         Transform groupParent,
-        HexagonStackGroup groupComponent,
+        OctagonStackGroup groupComponent,
         float xOffset)
     {
         var stackObject = ObjectPool.Instance.Get(HEXAGON_STACK_POOL_KEY, parent: groupParent);
@@ -280,7 +280,7 @@ public class LevelManager : MonoBehaviour
         Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.PatternSettings.HexRadius);
         stackObject.transform.localPosition = localPosition + new Vector3(xOffset, 0, .1f * gridPosition.y);
 
-        var stackComponent = stackObject.GetComponent<HexagonStack>();
+        var stackComponent = stackObject.GetComponent<OctagonStack>();
         if (stackComponent == null)
         {
             var po = stackObject.GetComponent<PooledObject>();

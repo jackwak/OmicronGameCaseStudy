@@ -6,11 +6,8 @@ using UnityEngine;
 public class WeaponShooter : MonoBehaviour
 {
     [Header("Ayarlar")]
-    public WeaponData currentWeapon;
-    public Transform firePoint;
-
-    [Header("Debug")]
-    public bool drawDebug = true;
+    private WeaponData _currentWeapon;
+    [SerializeField] private Transform _firePoint;
 
     private const float BASE_ANGLE = 90f;
     private bool _canShoot;
@@ -33,7 +30,7 @@ public class WeaponShooter : MonoBehaviour
     void Update()
     {
         if (!_canShoot) return;
-        if (currentWeapon == null) return;
+        if (_currentWeapon == null) return;
 
         // InputManager'dan dokunma kontrolü
         bool isTouching = false;
@@ -45,7 +42,7 @@ public class WeaponShooter : MonoBehaviour
         if (!isTouching) return;
 
         // Her projectile kendi fire rate'ine göre kontrol et
-        foreach (var projectileData in currentWeapon.projectiles)
+        foreach (var projectileData in _currentWeapon.projectiles)
         {
             if (projectileData == null) continue;
 
@@ -66,7 +63,7 @@ public class WeaponShooter : MonoBehaviour
 
     private void SetWeaponData(WeaponData weaponData)
     {
-        currentWeapon = weaponData;
+        _currentWeapon = weaponData;
     }
 
     void FireProjectile(ProjectileData data)
@@ -99,7 +96,7 @@ public class WeaponShooter : MonoBehaviour
     void SpawnProjectile(ProjectileData data, float angle)
     {
         GameObject proj = ObjectPool.Instance.Get(data.projectilePoolKey, null);
-        proj.transform.position = firePoint.position;
+        proj.transform.position = _firePoint.position;
 
         float rad = angle * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));

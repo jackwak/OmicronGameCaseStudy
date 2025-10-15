@@ -1,7 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class RotatingStackGroup : HexagonStackGroup
+public class RotatingStackGroup : OctagonStackGroup
 {
     [Title("Rotation Settings")]
     [Range(-360f, 360f)]

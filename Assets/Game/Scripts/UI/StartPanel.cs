@@ -19,7 +19,7 @@ public class StartPanel : MonoBehaviour
 
     private void OpenText()
     {
-        _tapToStartText.DOScale(_tapToStartText.localScale + Vector3.one * .2f, .4f).From(0).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        _tapToStartText.DOScale(Vector3.one * 1.2f, 1f).From(Vector3.one).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
         _tapToStartText.gameObject.SetActive(true);
     }
 

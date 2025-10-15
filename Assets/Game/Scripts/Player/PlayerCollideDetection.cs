@@ -13,7 +13,7 @@ public class PlayerCollideDetection : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out HexagonStack hexagonStack))
+        if (other.TryGetComponent(out OctagonStack hexagonStack))
         {
             if (_isShieldActive)
             {

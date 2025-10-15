@@ -199,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3479756975457976148}
   m_Layer: 0
-  m_Name: Hexagons
+  m_Name: Octagons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: -7654802494204252856}
   - component: {fileID: -7719275211940590913}
   m_Layer: 6
-  m_Name: Hexagon Stack
+  m_Name: Octagon Stack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

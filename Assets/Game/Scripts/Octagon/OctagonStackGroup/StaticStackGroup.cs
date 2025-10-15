@@ -2,7 +2,7 @@ using UnityEngine;
 /// <summary>
 /// Static stack group - no movement, just holds stacks together
 /// </summary>
-public class StaticStackGroup : HexagonStackGroup
+public class StaticStackGroup : OctagonStackGroup
 {
     protected override void OnGroupInitialized()
     {

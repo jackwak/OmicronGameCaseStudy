@@ -1,7 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class OscillatingStackGroup : HexagonStackGroup
+public class OscillatingStackGroup : OctagonStackGroup
 {
     [Title("Oscillation Settings")]
     [Range(0.1f, 10f)]
