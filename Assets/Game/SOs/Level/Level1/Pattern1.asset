@@ -16,24 +16,24 @@ MonoBehaviour:
   StackGroups:
   - GroupId: 0
     GroupType: 0
-    HealthRange: {x: 5, y: 10}
-    PerOctagonHealth: 2
-    GroupColor: {r: 0.776, g: 0.651, b: 0.349, a: 1}
+    HealthRange: {x: 1, y: 5}
+    PerOctagonHealth: 1
+    GroupColor: {r: 0.188, g: 0.114, b: 0.224, a: 1}
     StackPositions:
     - {x: 0, y: 0}
-    - {x: 0, y: 1}
-    - {x: 0, y: 2}
-    - {x: 0, y: 3}
-    - {x: 0, y: 4}
-    - {x: 0, y: 5}
-    - {x: 0, y: 6}
+    - {x: 0, y: 7}
+    - {x: 0, y: 9}
+    - {x: 3, y: 4}
+    - {x: 3, y: 9}
+    - {x: 4, y: 7}
+    - {x: 5, y: 6}
     - {x: 6, y: 0}
     - {x: 6, y: 1}
-    - {x: 6, y: 2}
-    - {x: 6, y: 3}
-    - {x: 6, y: 4}
-    - {x: 6, y: 5}
-    - {x: 6, y: 6}
+    - {x: 7, y: 4}
+    - {x: 7, y: 6}
+    - {x: 7, y: 9}
+    - {x: 8, y: 1}
+    - {x: 8, y: 9}
     RotationSpeed: 45
     RotationAxis: {x: 0, y: 1, z: 0}
     PivotPosition: 0
@@ -41,42 +41,48 @@ MonoBehaviour:
     Frequency: 1
     OscillationDirection: {x: 1, y: 0, z: 0}
   - GroupId: 1
-    GroupType: 1
-    HealthRange: {x: 5, y: 10}
+    GroupType: 0
+    HealthRange: {x: 1, y: 5}
     PerOctagonHealth: 1
-    GroupColor: {r: 0.165, g: 0.271, b: 0.11, a: 1}
+    GroupColor: {r: 0.435, g: 0.267, b: 0.357, a: 1}
     StackPositions:
-    - {x: 2, y: 2}
-    - {x: 2, y: 3}
+    - {x: 0, y: 6}
+    - {x: 1, y: 0}
+    - {x: 1, y: 9}
     - {x: 2, y: 4}
     - {x: 3, y: 2}
-    - {x: 3, y: 4}
-    - {x: 4, y: 2}
-    - {x: 4, y: 3}
-    - {x: 4, y: 4}
-    RotationSpeed: 45
-    RotationAxis: {x: 0, y: 0, z: 1}
-    PivotPosition: 0
-    Amplitude: 2
-    Frequency: 1
-    OscillationDirection: {x: 1, y: 0, z: 0}
-  - GroupId: 2
-    GroupType: 2
-    HealthRange: {x: 5, y: 10}
-    PerOctagonHealth: 1
-    GroupColor: {r: 0.647, g: 0.204, b: 0.227, a: 1}
-    StackPositions:
-    - {x: 1, y: 5}
-    - {x: 1, y: 6}
-    - {x: 5, y: 5}
-    - {x: 5, y: 6}
+    - {x: 3, y: 5}
+    - {x: 5, y: 3}
+    - {x: 7, y: 5}
+    - {x: 8, y: 0}
+    - {x: 8, y: 3}
+    - {x: 8, y: 8}
     RotationSpeed: 45
     RotationAxis: {x: 0, y: 1, z: 0}
     PivotPosition: 0
     Amplitude: 2
     Frequency: 1
-    OscillationDirection: {x: 0, y: 1, z: 0}
-  HexRadius: 0.75
-  CanRandomize: 0
-  GridWidth: 7
-  GridHeight: 7
+    OscillationDirection: {x: 1, y: 0, z: 0}
+  - GroupId: 2
+    GroupType: 0
+    HealthRange: {x: 1, y: 5}
+    PerOctagonHealth: 1
+    GroupColor: {r: 0.067, g: 0.271, b: 0.353, a: 1}
+    StackPositions:
+    - {x: 0, y: 3}
+    - {x: 1, y: 5}
+    - {x: 2, y: 9}
+    - {x: 3, y: 0}
+    - {x: 4, y: 2}
+    - {x: 4, y: 5}
+    - {x: 4, y: 8}
+    - {x: 5, y: 1}
+    - {x: 7, y: 0}
+    RotationSpeed: 45
+    RotationAxis: {x: 0, y: 1, z: 0}
+    PivotPosition: 0
+    Amplitude: 2
+    Frequency: 1
+    OscillationDirection: {x: 1, y: 0, z: 0}
+  GridWidth: 9
+  GridHeight: 10

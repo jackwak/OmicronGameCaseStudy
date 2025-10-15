@@ -8,6 +8,7 @@ public class LevelData : ScriptableObject
     [Title("Level Info")]
     [ReadOnly]
     public int LevelNumber;
+    public WeaponData WeaponData;
     
     [Title("Patterns")]
     [InfoBox("Patterns will be spawned in order. Each pattern spawns when the player reaches a trigger.")]

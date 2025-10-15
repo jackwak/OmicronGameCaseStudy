@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da03a2c4415da8840bcb42cc0b9323be, type: 3}
-  m_Name: Bullet
+  m_Name: Bullet3
   m_EditorClassIdentifier: 
   projectilePoolKey: Projectile_Bullet
-  fireRate: 0.8
+  fireRate: 0.4
   projectilesPerShot: 1
   delayBetweenProjectiles: 0.1
   spreadAngle: 0
@@ -22,9 +22,9 @@ MonoBehaviour:
   lifetime: 2
   minCurveAngle: -30
   maxCurveAngle: 30
-  explosionRadius: 0
-  damage: 1
+  explosionRadius: 3
+  damage: 7
   damageLayer:
     serializedVersion: 2
     m_Bits: 64
-  hitEffectPoolKey: Effect_Bullet
+  hitEffectPoolKey: Effect_Hit

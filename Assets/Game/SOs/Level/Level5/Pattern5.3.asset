@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7644edcc9b3d2914688c6902de51f434, type: 3}
+  m_Name: Pattern5.3
+  m_EditorClassIdentifier: 
+  PatternSettings: {fileID: 11400000, guid: 9ccc2040ae31d244eacee52a8ba4cb82, type: 2}
+  StackGroups:
+  - GroupId: 0
+    GroupType: 0
+    HealthRange: {x: 90, y: 120}
+    PerOctagonHealth: 12
+    GroupColor: {r: 0.996, g: 0.812, b: 0.012, a: 1}
+    StackPositions:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 0, y: 3}
+    - {x: 0, y: 4}
+    - {x: 0, y: 5}
+    - {x: 0, y: 6}
+    - {x: 0, y: 7}
+    - {x: 0, y: 8}
+    - {x: 1, y: 0}
+    - {x: 1, y: 8}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    - {x: 2, y: 3}
+    - {x: 2, y: 5}
+    - {x: 2, y: 6}
+    - {x: 2, y: 7}
+    - {x: 2, y: 8}
+    - {x: 3, y: 0}
+    - {x: 3, y: 1}
+    - {x: 3, y: 2}
+    - {x: 3, y: 3}
+    - {x: 3, y: 5}
+    - {x: 3, y: 6}
+    - {x: 3, y: 7}
+    - {x: 3, y: 8}
+    - {x: 4, y: 0}
+    - {x: 4, y: 8}
+    - {x: 5, y: 0}
+    - {x: 5, y: 1}
+    - {x: 5, y: 2}
+    - {x: 5, y: 3}
+    - {x: 5, y: 4}
+    - {x: 5, y: 5}
+    - {x: 5, y: 6}
+    - {x: 5, y: 7}
+    - {x: 5, y: 8}
+    - {x: 6, y: 0}
+    - {x: 6, y: 1}
+    - {x: 6, y: 2}
+    - {x: 6, y: 3}
+    - {x: 6, y: 4}
+    - {x: 6, y: 5}
+    - {x: 6, y: 6}
+    - {x: 6, y: 7}
+    - {x: 6, y: 8}
+    - {x: 7, y: 0}
+    - {x: 7, y: 2}
+    - {x: 7, y: 8}
+    - {x: 8, y: 0}
+    - {x: 8, y: 1}
+    - {x: 8, y: 2}
+    - {x: 8, y: 3}
+    - {x: 8, y: 4}
+    - {x: 8, y: 5}
+    - {x: 8, y: 6}
+    - {x: 8, y: 7}
+    - {x: 8, y: 8}
+    RotationSpeed: 2
+    RotationAxis: {x: 0, y: 0, z: -1}
+    PivotPosition: 2
+    Amplitude: 3
+    Frequency: 2
+    OscillationDirection: {x: 1, y: 1, z: 0}
+  - GroupId: 1
+    GroupType: 0
+    HealthRange: {x: 90, y: 120}
+    PerOctagonHealth: 12
+    GroupColor: {r: 0.027, g: 0.792, b: 0.8, a: 1}
+    StackPositions:
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 1, y: 3}
+    - {x: 1, y: 4}
+    - {x: 1, y: 5}
+    - {x: 1, y: 6}
+    - {x: 1, y: 7}
+    - {x: 2, y: 4}
+    - {x: 3, y: 4}
+    - {x: 4, y: 1}
+    - {x: 4, y: 2}
+    - {x: 4, y: 3}
+    - {x: 4, y: 4}
+    - {x: 4, y: 5}
+    - {x: 4, y: 6}
+    - {x: 4, y: 7}
+    - {x: 7, y: 1}
+    - {x: 7, y: 3}
+    - {x: 7, y: 4}
+    - {x: 7, y: 5}
+    - {x: 7, y: 6}
+    - {x: 7, y: 7}
+    RotationSpeed: 2
+    RotationAxis: {x: 0, y: 0, z: -1}
+    PivotPosition: 2
+    Amplitude: 3
+    Frequency: 2
+    OscillationDirection: {x: 1, y: 1, z: 0}
+  GridWidth: 9
+  GridHeight: 9

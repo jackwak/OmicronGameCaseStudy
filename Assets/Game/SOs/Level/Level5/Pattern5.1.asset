@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7644edcc9b3d2914688c6902de51f434, type: 3}
+  m_Name: Pattern5.1
+  m_EditorClassIdentifier: 
+  PatternSettings: {fileID: 11400000, guid: 9ccc2040ae31d244eacee52a8ba4cb82, type: 2}
+  StackGroups:
+  - GroupId: 0
+    GroupType: 2
+    HealthRange: {x: 90, y: 120}
+    PerOctagonHealth: 12
+    GroupColor: {r: 0.165, g: 0.157, b: 0.008, a: 1}
+    StackPositions:
+    - {x: 0, y: 6}
+    - {x: 0, y: 8}
+    - {x: 1, y: 7}
+    - {x: 2, y: 6}
+    - {x: 2, y: 8}
+    RotationSpeed: 2
+    RotationAxis: {x: 0, y: 0, z: -1}
+    PivotPosition: 2
+    Amplitude: 3
+    Frequency: 2
+    OscillationDirection: {x: 1, y: 1, z: 0}
+  - GroupId: 1
+    GroupType: 2
+    HealthRange: {x: 90, y: 120}
+    PerOctagonHealth: 12
+    GroupColor: {r: 0.647, g: 0.204, b: 0.227, a: 1}
+    StackPositions:
+    - {x: 0, y: 0}
+    - {x: 0, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 0}
+    - {x: 2, y: 2}
+    RotationSpeed: 1
+    RotationAxis: {x: 0, y: 0, z: 1}
+    PivotPosition: 1
+    Amplitude: 3
+    Frequency: 2
+    OscillationDirection: {x: 1, y: -1, z: 0}
+  - GroupId: 2
+    GroupType: 2
+    HealthRange: {x: 90, y: 120}
+    PerOctagonHealth: 12
+    GroupColor: {r: 0.725, g: 0.976, b: 0.91, a: 1}
+    StackPositions:
+    - {x: 6, y: 0}
+    - {x: 6, y: 2}
+    - {x: 7, y: 1}
+    - {x: 8, y: 0}
+    - {x: 8, y: 2}
+    RotationSpeed: 1
+    RotationAxis: {x: 0, y: 0, z: 1}
+    PivotPosition: 1
+    Amplitude: 3
+    Frequency: 2
+    OscillationDirection: {x: -1, y: -1, z: 0}
+  - GroupId: 3
+    GroupType: 2
+    HealthRange: {x: 90, y: 120}
+    PerOctagonHealth: 12
+    GroupColor: {r: 0.357, g: 0.333, b: 0.278, a: 1}
+    StackPositions:
+    - {x: 6, y: 6}
+    - {x: 6, y: 8}
+    - {x: 7, y: 7}
+    - {x: 8, y: 6}
+    - {x: 8, y: 8}
+    RotationSpeed: 1
+    RotationAxis: {x: 0, y: 0, z: 1}
+    PivotPosition: 1
+    Amplitude: 3
+    Frequency: 2
+    OscillationDirection: {x: -1, y: 1, z: 0}
+  GridWidth: 9
+  GridHeight: 9

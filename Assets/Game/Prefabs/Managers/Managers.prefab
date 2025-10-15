@@ -93,8 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b19b7cc521e7f448f15490336a27d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 0}
-  sfxSource: {fileID: 0}
   buttonClick: {fileID: 0}
   shootSound: {fileID: 0}
   gameOver: {fileID: 0}
@@ -218,6 +216,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 4540504592061719929, guid: 721a3512037d9894b8f1f29c2cde7a33, type: 3}
+      propertyPath: LevelDataList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4540504592061719929, guid: 721a3512037d9894b8f1f29c2cde7a33, type: 3}
+      propertyPath: 'LevelDataList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a3f91220ae5f7ee4eb5355098493c96c, type: 2}
+    - target: {fileID: 4540504592061719929, guid: 721a3512037d9894b8f1f29c2cde7a33, type: 3}
+      propertyPath: 'LevelDataList.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ae591d10a6f7f64fb96cf19a2c836c6, type: 2}
+    - target: {fileID: 4540504592061719929, guid: 721a3512037d9894b8f1f29c2cde7a33, type: 3}
+      propertyPath: 'LevelDataList.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 55f602829dbbc4841a5ab397dfcf56fb, type: 2}
     - target: {fileID: 5630289183579641532, guid: 721a3512037d9894b8f1f29c2cde7a33, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

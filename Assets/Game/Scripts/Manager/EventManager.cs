@@ -21,7 +21,10 @@ public class EventManager : MonoBehaviour
 
     public UnityAction CollideWithOctagon;
     public UnityAction FinishGame;
+    public UnityAction GameWin;
+    public UnityAction GameLose;
     public UnityAction TriggerFirstSpawn;
+    public UnityAction<WeaponData> InitializeWeaponData;
 
 
     public void OnStartGame()
@@ -62,5 +65,20 @@ public class EventManager : MonoBehaviour
     public void OnCollideWithOctagon()
     {
         CollideWithOctagon?.Invoke();
+    }
+
+    public void OnGameLose()
+    {
+        GameLose?.Invoke();
+    }
+
+    public void OnGameWin()
+    {
+        GameWin?.Invoke();
+    }
+
+    public void OnInitializeWeaponData(WeaponData weaponData)
+    {
+        InitializeWeaponData?.Invoke(weaponData);
     }
 }

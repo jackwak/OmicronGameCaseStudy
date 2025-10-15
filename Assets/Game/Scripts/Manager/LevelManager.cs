@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
 
-    
     [Title("Level Configuration")]
     [InfoBox("Assign level data for each level. Index 0 = Level 1, Index 1 = Level 2, etc.")]
     [ListDrawerSettings(ShowIndexLabels = true)]
@@ -14,10 +13,10 @@ public class LevelManager : MonoBehaviour
     
     [Title("Current Level")]
     [ReadOnly, ShowInInspector]
-    private int _currentLevel = 1; // 1-based (Level 1, 2, 3...)
+    private int _currentLevel = 1;
     
     [ReadOnly, ShowInInspector]
-    private int _currentPatternIndex = 0; // 0-based (array index)
+    private int _currentPatternIndex = 0;
     
     [ReadOnly, ShowInInspector]
     private LevelData _currentLevelData;
@@ -64,9 +63,14 @@ public class LevelManager : MonoBehaviour
             int randomLevelIndex = Random.Range(0, LevelDataList.Count);
             _currentLevelData = LevelDataList[randomLevelIndex];
         }
+
+        EventManager.Instance.OnInitializeWeaponData(_currentLevelData.WeaponData);
     }
     
-    public int GetPatternCount(){ return _currentLevelData.GetPatternCount(); }
+    public int GetPatternCount()
+    { 
+        return _currentLevelData.GetPatternCount(); 
+    }
     
     public void SpawnNextPattern(Transform spawnTransform)
     {
@@ -82,13 +86,10 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        // Spawn the pattern at the given position
         SpawnPattern(pattern, spawnTransform);
 
-        // Move to next pattern
         _currentPatternIndex++;
 
-        // Check if level is completed
         if (_currentPatternIndex >= _currentLevelData.GetPatternCount())
         {
             OnLevelCompleted();
@@ -96,135 +97,55 @@ public class LevelManager : MonoBehaviour
     }
 
     private void SpawnPattern(HexagonPattern pattern, Transform spawnTransform)
-{
-    // Kamera genişliğine göre X offset hesapla
-    float xOffset = CalculateScreenCenterXOffset(pattern);
-    
-    foreach (var groupData in pattern.StackGroups)
     {
-        SpawnStackGroup(groupData, pattern, spawnTransform, xOffset);
-    }
-}
-
-// Ekran genişliğine göre X offset hesapla
-private float CalculateScreenCenterXOffset(HexagonPattern pattern)
-{
-    if (pattern.StackGroups == null || pattern.StackGroups.Count == 0)
-        return 0f;
-
-    // Grid'in genişliğini hesapla
-    int minX = int.MaxValue;
-    int maxX = int.MinValue;
-
-    foreach (var group in pattern.StackGroups)
-    {
-        foreach (var pos in group.StackPositions)
+        float xOffset = CalculateScreenCenterXOffset(pattern);
+        
+        foreach (var groupData in pattern.StackGroups)
         {
-            if (pos.x < minX) minX = pos.x;
-            if (pos.x > maxX) maxX = pos.x;
+            SpawnStackGroup(groupData, pattern, spawnTransform, xOffset);
         }
     }
 
-    // Grid'in toplam genişliği
-    float gridWidth = (maxX - minX) * pattern.PatternSettings.HexRadius;
-    
-    // Kamera genişliği (orthographic size kullanarak)
-    Camera mainCamera = Camera.main;
-    float screenWidth = mainCamera.orthographicSize * 2f * mainCamera.aspect;
-    
-    // Ekranın ortası - grid'in yarısı
-    float screenCenterX = screenWidth / 2f;
-    float gridCenterOffset = gridWidth / 2f;
-    
-    // Grid'in sol kenarını ekranın ortasından kaydır
-    return screenCenterX - gridCenterOffset - (minX * pattern.PatternSettings.HexRadius);
-}
-
-    private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform, float xOffset)
+    private float CalculateScreenCenterXOffset(HexagonPattern pattern)
     {
-        GameObject groupObject = null;
-        HexagonStackGroup groupComponent = null;
+        if (pattern.StackGroups == null || pattern.StackGroups.Count == 0)
+            return 0f;
 
-        switch (groupData.GroupType)
+        int minX = int.MaxValue;
+        int maxX = int.MinValue;
+
+        foreach (var group in pattern.StackGroups)
         {
-            case StackGroupType.Static:
-                groupObject = ObjectPool.Instance.Get(STATIC_STACK_GROUP_KEY);
-                groupComponent = groupObject.GetComponent<StaticStackGroup>();
-                break;
-            case StackGroupType.Rotating:
-                groupObject = ObjectPool.Instance.Get(ROTATION_STACK_GROUP_KEY);
-                var rotatingGroup = groupObject.GetComponent<RotatingStackGroup>();
-                rotatingGroup.RotationSpeed = groupData.RotationSpeed;
-                rotatingGroup.RotationAxis = groupData.RotationAxis;
-                rotatingGroup.PivotPosition = groupData.PivotPosition;
-                groupComponent = rotatingGroup;
-                break;
-            case StackGroupType.Oscillating:
-                groupObject = ObjectPool.Instance.Get(OSCILLATING_STACK_GROUP_KEY);
-                var oscillatingGroup = groupObject.GetComponent<OscillatingStackGroup>();
-                oscillatingGroup.Amplitude = groupData.Amplitude;
-                oscillatingGroup.Frequency = groupData.Frequency;
-                oscillatingGroup.OscillationDirection = groupData.OscillationDirection;
-                groupComponent = oscillatingGroup;
-                break;
+            foreach (var pos in group.StackPositions)
+            {
+                if (pos.x < minX) minX = pos.x;
+                if (pos.x > maxX) maxX = pos.x;
+            }
         }
 
-        groupObject.transform.SetParent(spawnTransform);
-        groupObject.transform.localPosition = new Vector3(0, 0, -1);
+        Camera mainCamera = Camera.main;
+        float screenWidth = mainCamera.orthographicSize * 2f * mainCamera.aspect;
 
-        if (groupComponent != null)
-        {
-            groupComponent.IsActive = true;
-        }
+        // Grid'in toplam genişliği (world space'de)
+        float gridWidth = (maxX - minX) * pattern.PatternSettings.HexRadius;
 
-        List<GameObject> tempStacks = new List<GameObject>();
+        // Spawn position zaten ekranın sol kenarında (min.x)
+        // Grid'i ortalamak için: (ekran genişliği - grid genişliği) / 2
+        float offset = (screenWidth - gridWidth) / 2f;
 
-        foreach (var gridPosition in groupData.StackPositions)
-        {
-            GameObject stack = SpawnStackAtPosition(gridPosition, groupData, pattern, groupObject.transform, groupComponent, xOffset);
-            if (stack != null)
-                tempStacks.Add(stack);
-        }
+        // minX'i de hesaba kat (eğer grid 0'dan başlamıyorsa)
+        offset -= minX * pattern.PatternSettings.HexRadius;
 
-        if (groupData.GroupType == StackGroupType.Rotating && tempStacks.Count > 0)
-        {
-            AdjustGroupPivot(groupObject.transform, tempStacks, groupData.PivotPosition);
-        }
+        Debug.Log($"=== CENTERING DEBUG ===");
+        Debug.Log($"MinX: {minX}, MaxX: {maxX}");
+        Debug.Log($"HexRadius: {pattern.PatternSettings.HexRadius}");
+        Debug.Log($"Grid Width: {gridWidth}");
+        Debug.Log($"Screen Width: {screenWidth}");
+        Debug.Log($"Final Offset: {offset}");
+        Debug.Log($"======================");
+
+        return offset;
     }
-
-    private GameObject SpawnStackAtPosition(Vector2Int gridPosition,
-    StackGroupData groupData,
-    HexagonPattern pattern,
-    Transform groupParent,
-    HexagonStackGroup groupComponent,
-    float xOffset)
-    {
-        var stackObject = ObjectPool.Instance.Get(HEXAGON_STACK_POOL_KEY, parent: groupParent);
-        stackObject.name = $"Stack_{gridPosition.x}_{gridPosition.y}";
-
-        // X offset ekle
-        Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.PatternSettings.HexRadius);
-        stackObject.transform.localPosition = localPosition + new Vector3(xOffset, 0, .1f * gridPosition.y);
-
-        var stackComponent = stackObject.GetComponent<HexagonStack>();
-        if (stackComponent == null)
-        {
-            var po = stackObject.GetComponent<PooledObject>();
-            if (po != null) po.ReturnToPool(); else Destroy(stackObject);
-            return null;
-        }
-
-        float health = groupData.GetRandomHealth();
-        int hexagonCount = groupData.GetHexagonOnStackCount((int)health);
-        stackComponent.InitializeHexagonStack(health, groupData.PerOctagonHealth, hexagonCount, groupData.GroupColor);
-
-        if (groupComponent != null)
-            groupComponent.RegisterChildStack(stackObject);
-
-        return stackObject;
-    }
-
-
 
     private void SpawnFinishLine(Transform spawnTransform)
     {
@@ -232,7 +153,7 @@ private float CalculateScreenCenterXOffset(HexagonPattern pattern)
         groupObject.transform.SetParent(spawnTransform);
         groupObject.transform.localPosition = new Vector3(0, 0, 0);
     }
-
+    
     private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform, float xOffset)
     {
         GameObject groupObject = null;
@@ -293,7 +214,6 @@ private float CalculateScreenCenterXOffset(HexagonPattern pattern)
             return;
         }
 
-        // Çocukların LOKAL konumlarından AABB (min-max) çıkar
         Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
         Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
@@ -312,7 +232,6 @@ private float CalculateScreenCenterXOffset(HexagonPattern pattern)
 
         Vector3 center = (min + max) * 0.5f;
 
-        // Hedef pivot noktası (grup lokal uzayında)
         Vector3 target = center;
         switch (pivotPosition)
         {
@@ -345,38 +264,31 @@ private float CalculateScreenCenterXOffset(HexagonPattern pattern)
                 break;
         }
 
-        // Offset: mevcut pivot (0,0,0) -> hedef pivot (target)
         Vector3 offsetLocal = target;
 
-        // 1) Tüm çocukları lokal uzayda -offset kadar kaydır
         foreach (var go in childStacks)
         {
             if (go == null) continue;
             go.transform.localPosition -= offsetLocal;
         }
 
-        // 2) Grubu dünya uzayında +offset kadar taşı (görsel sabit kalsın)
         Vector3 offsetWorld = groupTransform.TransformVector(offsetLocal);
         groupTransform.position += offsetWorld;
-
-        Debug.Log($"AdjustGroupPivot: {pivotPosition} için offset (local): {offsetLocal}, (world): {offsetWorld}");
     }
 
     private GameObject SpawnStackAtPosition(Vector2Int gridPosition,
-    StackGroupData groupData,
-    HexagonPattern pattern,
-    Transform groupParent,
-    HexagonStackGroup groupComponent,
-    float xOffset)
+        StackGroupData groupData,
+        HexagonPattern pattern,
+        Transform groupParent,
+        HexagonStackGroup groupComponent,
+        float xOffset)
     {
         var stackObject = ObjectPool.Instance.Get(HEXAGON_STACK_POOL_KEY, parent: groupParent);
         stackObject.name = $"Stack_{gridPosition.x}_{gridPosition.y}";
 
-        // Lokal konum ver + sadece X offset'i ekle
         Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.PatternSettings.HexRadius);
         stackObject.transform.localPosition = localPosition + new Vector3(xOffset, 0, .1f * gridPosition.y);
 
-        // Bileşen kontrolü
         var stackComponent = stackObject.GetComponent<HexagonStack>();
         if (stackComponent == null)
         {
@@ -385,7 +297,6 @@ private float CalculateScreenCenterXOffset(HexagonPattern pattern)
             return null;
         }
 
-        // Initialize
         float health = groupData.GetRandomHealth();
         int hexagonCount = groupData.GetHexagonOnStackCount((int)health);
         stackComponent.InitializeHexagonStack(health, groupData.PerOctagonHealth, hexagonCount, groupData.GroupColor);
@@ -398,17 +309,15 @@ private float CalculateScreenCenterXOffset(HexagonPattern pattern)
     
     private Vector3 GridToWorldPosition(Vector2Int gridPos, float hexRadius)
     {
-        
         float x = gridPos.x * hexRadius;
         float y = gridPos.y * hexRadius;
         
-        return new Vector3(x, y, 0); // 2D: X-Y plane, Z=0
+        return new Vector3(x, y, 0);
     }
     
     private void OnLevelCompleted()
     {
         Debug.Log($"Level {_currentLevel} completed!");
-        // TODO: Handle level completion
     }
 
     [Button("Reset Level", ButtonSizes.Medium)]

@@ -20,12 +20,14 @@ public class WeaponShooter : MonoBehaviour
     {
         EventManager.Instance.EnterGameState += SetCanShootTrue;
         EventManager.Instance.EnterFinishState += SetCanShootFalse;
+        EventManager.Instance.InitializeWeaponData += SetWeaponData;
     }
 
     void OnDisable()
     {
         EventManager.Instance.EnterGameState -= SetCanShootTrue;
         EventManager.Instance.EnterFinishState -= SetCanShootFalse;
+        EventManager.Instance.InitializeWeaponData -= SetWeaponData;
     }
 
     void Update()
@@ -60,6 +62,11 @@ public class WeaponShooter : MonoBehaviour
                 nextFireTimes[projectileData] = Time.time + projectileData.fireRate;
             }
         }
+    }
+
+    private void SetWeaponData(WeaponData weaponData)
+    {
+        currentWeapon = weaponData;
     }
 
     void FireProjectile(ProjectileData data)

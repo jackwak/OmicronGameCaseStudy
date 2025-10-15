@@ -6,22 +6,40 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New HexagonPattern", menuName = "Hexagon Pattern")]
 public class HexagonPattern : ScriptableObject
 {
-    
     [Title(" Pattern Settings ")]
     public PatternSettings PatternSettings;
 
     [Title("Pattern Settings")]
     [InfoBox("Create multiple stack groups, each with their own stack positions, health ranges, and colors.")]
     [ListDrawerSettings(ShowIndexLabels = true, ListElementLabelName = "GetGroupLabel")]
+    [OnValueChanged(nameof(UpdateGroupIds))]
     public List<StackGroupData> StackGroups = new List<StackGroupData>();
     
-    [Title("Grid / Spacing")]
-    [MinValue(0.01f)] public float HexRadius = 1f;
-    public bool CanRandomize = false;
+    // Liste her değiştiğinde GroupId'leri güncelle
+    private void UpdateGroupIds()
+    {
+        for (int i = 0; i < StackGroups.Count; i++)
+        {
+            if (StackGroups[i] != null)
+            {
+                StackGroups[i].GroupId = i;
+            }
+        }
+    }
+    
+    // Unity Editor'de validate edildiğinde de güncelle
+    private void OnValidate()
+    {
+        #if UNITY_EDITOR
+        UpdateGroupIds();
+        #endif
+    }
 
     public StackGroupData GetGroupById(int groupId)
     {
-        return StackGroups.FirstOrDefault(g => g.GroupId == groupId);
+        if (groupId >= 0 && groupId < StackGroups.Count)
+            return StackGroups[groupId];
+        return null;
     }
 
     #region Editor
@@ -328,9 +346,10 @@ public enum StackGroupType
 public class StackGroupData
 {
     [HorizontalGroup("Header", Width = 0.7f)]
-    [HideLabel]
+    [HideLabel, ReadOnly]
     [Title("Group Info")]
-    public int GroupId;
+    [PropertyOrder(-1)]
+    public int GroupId; 
     
     [HorizontalGroup("Header")]
     [HideLabel, EnumToggleButtons]

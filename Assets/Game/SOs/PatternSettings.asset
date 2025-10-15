@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e7533c16fc04a4382f9e87b13c7744, type: 3}
   m_Name: PatternSettings
   m_EditorClassIdentifier: 
-  HexRadius: 0.75
+  HexRadius: 0.6

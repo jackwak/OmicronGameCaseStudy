@@ -52,10 +52,9 @@ public class FullscreenSquare : MonoBehaviour
         if (_spawnPosition == null || _renderer == null)
             return;
 
-        // Renderer'ın bottom pozisyonunu hesapla
         Bounds bounds = _renderer.bounds;
-        Vector3 bottomPosition = new Vector3(bounds.min.x + _patternSettings.HexRadius / 2, bounds.min.y, bounds.center.z);
-        
+        Vector3 bottomPosition = new Vector3(bounds.min.x, bounds.min.y, bounds.center.z);
+
         _spawnPosition.position = bottomPosition;
     }
 }

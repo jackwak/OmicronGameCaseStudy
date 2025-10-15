@@ -7,7 +7,6 @@ public class PooledObject : MonoBehaviour
 
     public void ReturnToPool()
     {
-        Debug.LogError("Girdiii");
         if (Manager != null && !string.IsNullOrEmpty(Key))
         {
             Manager.Return(Key, gameObject);

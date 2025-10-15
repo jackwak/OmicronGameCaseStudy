@@ -25,7 +25,7 @@ public class PlayerCollideDetection : MonoBehaviour
 
                 _isShieldActive = true;
                 _shiledTransform.gameObject.SetActive(true);
-                _shiledTransform.DOScale(_shiledTransform.localScale + Vector3.one * .2f, .6f).From(_shiledTransform.localScale).SetLoops(-1, LoopType.Yoyo);
+                _shiledTransform.DOScale(Vector3.one * 1.2f, .6f).From(_shiledTransform.localScale).SetLoops(-1, LoopType.Yoyo);
                 StartCoroutine(StartShieldEndDuration());
             }    
         }
@@ -35,5 +35,6 @@ public class PlayerCollideDetection : MonoBehaviour
     {
         yield return new WaitForSeconds(_shiledEndDuration);
         _isShieldActive = false;
+        _shiledTransform.DOScale(0, .6f).OnComplete(()=> _shiledTransform.gameObject.SetActive(false));
     }
 }

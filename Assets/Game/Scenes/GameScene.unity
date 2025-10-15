@@ -1308,8 +1308,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 572790009}
-  - {fileID: 1550954505}
   - {fileID: 1992954267}
+  - {fileID: 1550954505}
   - {fileID: 1739796433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1629,8 +1629,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02489da3e2c77bd47b7a56ec52192c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundTransform: {fileID: 1189241944}
+  _backgroundImage: {fileID: 1189241947}
+  _stageText: {fileID: 114630656}
   _contentCanvasGroup: {fileID: 1507593001}
+  _winColor: {r: 0.10667764, g: 0.5377358, b: 0.10399607, a: 1}
+  _loseColor: {r: 0.5943396, g: 0.103729084, b: 0.103729084, a: 1}
 --- !u!1001 &1560304337
 PrefabInstance:
   m_ObjectHideFlags: 0
