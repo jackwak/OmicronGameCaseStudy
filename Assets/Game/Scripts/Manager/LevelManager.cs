@@ -94,26 +94,57 @@ public class LevelManager : MonoBehaviour
             OnLevelCompleted();
         }
     }
-    
+
     private void SpawnPattern(HexagonPattern pattern, Transform spawnTransform)
+{
+    // Kamera genişliğine göre X offset hesapla
+    float xOffset = CalculateScreenCenterXOffset(pattern);
+    
+    foreach (var groupData in pattern.StackGroups)
     {
-        foreach (var groupData in pattern.StackGroups)
+        SpawnStackGroup(groupData, pattern, spawnTransform, xOffset);
+    }
+}
+
+// Ekran genişliğine göre X offset hesapla
+private float CalculateScreenCenterXOffset(HexagonPattern pattern)
+{
+    if (pattern.StackGroups == null || pattern.StackGroups.Count == 0)
+        return 0f;
+
+    // Grid'in genişliğini hesapla
+    int minX = int.MaxValue;
+    int maxX = int.MinValue;
+
+    foreach (var group in pattern.StackGroups)
+    {
+        foreach (var pos in group.StackPositions)
         {
-            SpawnStackGroup(groupData, pattern, spawnTransform);
+            if (pos.x < minX) minX = pos.x;
+            if (pos.x > maxX) maxX = pos.x;
         }
     }
 
-    private void SpawnFinishLine(Transform spawnTransform)
-    {
-        GameObject groupObject = ObjectPool.Instance.Get("FinishLine");
-        groupObject.transform.SetParent(spawnTransform);
-        groupObject.transform.localPosition = new Vector3(0, 0, 0);
-    }
+    // Grid'in toplam genişliği
+    float gridWidth = (maxX - minX) * pattern.PatternSettings.HexRadius;
     
-    private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform)
+    // Kamera genişliği (orthographic size kullanarak)
+    Camera mainCamera = Camera.main;
+    float screenWidth = mainCamera.orthographicSize * 2f * mainCamera.aspect;
+    
+    // Ekranın ortası - grid'in yarısı
+    float screenCenterX = screenWidth / 2f;
+    float gridCenterOffset = gridWidth / 2f;
+    
+    // Grid'in sol kenarını ekranın ortasından kaydır
+    return screenCenterX - gridCenterOffset - (minX * pattern.PatternSettings.HexRadius);
+}
+
+    private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform, float xOffset)
     {
         GameObject groupObject = null;
         HexagonStackGroup groupComponent = null;
+
         switch (groupData.GroupType)
         {
             case StackGroupType.Static:
@@ -150,7 +181,100 @@ public class LevelManager : MonoBehaviour
 
         foreach (var gridPosition in groupData.StackPositions)
         {
-            GameObject stack = SpawnStackAtPosition(gridPosition, groupData, pattern, groupObject.transform, groupComponent);
+            GameObject stack = SpawnStackAtPosition(gridPosition, groupData, pattern, groupObject.transform, groupComponent, xOffset);
+            if (stack != null)
+                tempStacks.Add(stack);
+        }
+
+        if (groupData.GroupType == StackGroupType.Rotating && tempStacks.Count > 0)
+        {
+            AdjustGroupPivot(groupObject.transform, tempStacks, groupData.PivotPosition);
+        }
+    }
+
+    private GameObject SpawnStackAtPosition(Vector2Int gridPosition,
+    StackGroupData groupData,
+    HexagonPattern pattern,
+    Transform groupParent,
+    HexagonStackGroup groupComponent,
+    float xOffset)
+    {
+        var stackObject = ObjectPool.Instance.Get(HEXAGON_STACK_POOL_KEY, parent: groupParent);
+        stackObject.name = $"Stack_{gridPosition.x}_{gridPosition.y}";
+
+        // X offset ekle
+        Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.PatternSettings.HexRadius);
+        stackObject.transform.localPosition = localPosition + new Vector3(xOffset, 0, .1f * gridPosition.y);
+
+        var stackComponent = stackObject.GetComponent<HexagonStack>();
+        if (stackComponent == null)
+        {
+            var po = stackObject.GetComponent<PooledObject>();
+            if (po != null) po.ReturnToPool(); else Destroy(stackObject);
+            return null;
+        }
+
+        float health = groupData.GetRandomHealth();
+        int hexagonCount = groupData.GetHexagonOnStackCount((int)health);
+        stackComponent.InitializeHexagonStack(health, groupData.PerOctagonHealth, hexagonCount, groupData.GroupColor);
+
+        if (groupComponent != null)
+            groupComponent.RegisterChildStack(stackObject);
+
+        return stackObject;
+    }
+
+
+
+    private void SpawnFinishLine(Transform spawnTransform)
+    {
+        GameObject groupObject = ObjectPool.Instance.Get("FinishLine");
+        groupObject.transform.SetParent(spawnTransform);
+        groupObject.transform.localPosition = new Vector3(0, 0, 0);
+    }
+
+    private void SpawnStackGroup(StackGroupData groupData, HexagonPattern pattern, Transform spawnTransform, float xOffset)
+    {
+        GameObject groupObject = null;
+        HexagonStackGroup groupComponent = null;
+
+        switch (groupData.GroupType)
+        {
+            case StackGroupType.Static:
+                groupObject = ObjectPool.Instance.Get(STATIC_STACK_GROUP_KEY);
+                groupComponent = groupObject.GetComponent<StaticStackGroup>();
+                break;
+            case StackGroupType.Rotating:
+                groupObject = ObjectPool.Instance.Get(ROTATION_STACK_GROUP_KEY);
+                var rotatingGroup = groupObject.GetComponent<RotatingStackGroup>();
+                rotatingGroup.RotationSpeed = groupData.RotationSpeed;
+                rotatingGroup.RotationAxis = groupData.RotationAxis;
+                rotatingGroup.PivotPosition = groupData.PivotPosition;
+                groupComponent = rotatingGroup;
+                break;
+            case StackGroupType.Oscillating:
+                groupObject = ObjectPool.Instance.Get(OSCILLATING_STACK_GROUP_KEY);
+                var oscillatingGroup = groupObject.GetComponent<OscillatingStackGroup>();
+                oscillatingGroup.Amplitude = groupData.Amplitude;
+                oscillatingGroup.Frequency = groupData.Frequency;
+                oscillatingGroup.OscillationDirection = groupData.OscillationDirection;
+                groupComponent = oscillatingGroup;
+                break;
+        }
+
+        groupObject.transform.SetParent(spawnTransform);
+        groupObject.transform.localPosition = new Vector3(0, 0, -1);
+
+        if (groupComponent != null)
+        {
+            groupComponent.IsActive = true;
+        }
+
+        List<GameObject> tempStacks = new List<GameObject>();
+
+        foreach (var gridPosition in groupData.StackPositions)
+        {
+            GameObject stack = SpawnStackAtPosition(gridPosition, groupData, pattern, groupObject.transform, groupComponent, xOffset);
             if (stack != null)
                 tempStacks.Add(stack);
         }
@@ -242,15 +366,15 @@ public class LevelManager : MonoBehaviour
     StackGroupData groupData,
     HexagonPattern pattern,
     Transform groupParent,
-    HexagonStackGroup groupComponent)
+    HexagonStackGroup groupComponent,
+    float xOffset)
     {
         var stackObject = ObjectPool.Instance.Get(HEXAGON_STACK_POOL_KEY, parent: groupParent);
-
         stackObject.name = $"Stack_{gridPosition.x}_{gridPosition.y}";
 
-        // Lokal konum ver
+        // Lokal konum ver + sadece X offset'i ekle
         Vector3 localPosition = GridToWorldPosition(gridPosition, pattern.PatternSettings.HexRadius);
-        stackObject.transform.localPosition = localPosition + new Vector3(0, 0, .1f * gridPosition.y);
+        stackObject.transform.localPosition = localPosition + new Vector3(xOffset, 0, .1f * gridPosition.y);
 
         // Bileşen kontrolü
         var stackComponent = stackObject.GetComponent<HexagonStack>();
